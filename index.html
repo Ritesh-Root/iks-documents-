@@ -1,8 +1,3 @@
-<!-- 
-  Made by: Ritesh Kumar Mahato
-  Instagram: riteshoon
-  Project: Indian Knowledge System (IKS) Interactive Study Guide
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +24,36 @@
     --glass: rgba(255,248,235,0.85);
   }
 
+  /* ── WEBSITE FEEL ── */
+  .chapter-section, #quiz, #connections {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .chapter-section.active, #quiz.active, #connections.active {
+    display: block;
+    opacity: 1;
+    animation: fadeInPage 0.5s ease forwards;
+  }
+
+  @keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .watermark {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-size: 11px;
+    color: var(--muted);
+    opacity: 0.6;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: 'DM Mono', monospace;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -49,24 +74,6 @@
       radial-gradient(ellipse at 50% 50%, rgba(212,160,23,0.04) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
-  }
-
-  /* ── WEBSITE TRANSITIONS ── */
-  .main-page {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
-  .main-page.active {
-    display: block;
-    opacity: 1;
-    animation: pageFadeIn 0.6s ease forwards;
-  }
-
-  @keyframes pageFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   /* ── HERO ── */
@@ -91,6 +98,19 @@
     transform: translate(-50%, -50%);
     animation: spin 80s linear infinite;
   }
+  .hero-mandala::before {
+    content: '';
+    position: absolute; inset: 40px;
+    border-radius: 50%;
+    border: 1px dashed rgba(232,132,58,0.2);
+    animation: spin 40s linear infinite reverse;
+  }
+  .hero-mandala::after {
+    content: '';
+    position: absolute; inset: 100px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,160,23,0.1);
+  }
 
   @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
@@ -110,6 +130,16 @@
     margin-bottom: 28px;
     position: relative;
     animation: fadeUp 0.8s ease forwards;
+  }
+
+  .hero-badge::before {
+    content: '🔱';
+    font-size: 14px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .hero h1 {
@@ -144,6 +174,57 @@
     animation: fadeUp 0.8s 0.3s ease both;
   }
 
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--saffron);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .scroll-arrow {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
   /* ── NAV ── */
   .sticky-nav {
     position: sticky;
@@ -165,6 +246,8 @@
     scrollbar-width: none;
   }
 
+  .nav-inner::-webkit-scrollbar { display: none; }
+
   .nav-item {
     flex-shrink: 0;
     padding: 16px 20px;
@@ -176,12 +259,31 @@
     transition: all 0.2s;
     text-decoration: none;
     white-space: nowrap;
+    transition: all 0.3s;
   }
 
   .nav-item:hover, .nav-item.active {
     color: var(--saffron);
     border-bottom-color: var(--saffron);
+    background: rgba(232,132,58,0.05);
   }
+
+  /* CTA Button */
+  .cta-button {
+    background: var(--saffron);
+    color: white;
+    padding: 14px 36px;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(232,132,58,0.3);
+  }
+  .cta-button:hover { background: var(--deep-saffron); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,132,58,0.4); }
 
   /* ── CHAPTER SECTION ── */
   .chapter-section {
@@ -208,6 +310,18 @@
     color: rgba(232,132,58,0.15);
     line-height: 1;
     flex-shrink: 0;
+    user-select: none;
+  }
+
+  .chapter-meta {}
+
+  .chapter-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 6px;
   }
 
   .chapter-title {
@@ -219,6 +333,14 @@
     margin-bottom: 14px;
   }
 
+  .chapter-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 620px;
+  }
+
+  /* ── TOPIC GRID ── */
   .topics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -233,26 +355,80 @@
     padding: 28px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-color, var(--saffron));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
   }
 
   .topic-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 20px 40px rgba(139,94,60,0.12);
+    border-color: var(--card-color, var(--saffron));
   }
 
-  /* ── MODAL ── */
+  .topic-card:hover::before { transform: scaleX(1); }
+
+  .topic-icon {
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--indigo);
+    margin-bottom: 8px;
+  }
+
+  .topic-preview {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .topic-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--card-color, var(--saffron));
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── MODAL / DETAIL PANEL ── */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(26,18,8,0.7);
     backdrop-filter: blur(4px);
     z-index: 1000;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
   }
 
-  .modal-overlay.open { display: flex; }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
 
   .modal {
     background: var(--cream);
@@ -263,6 +439,14 @@
     overflow-y: auto;
     padding: 48px;
     position: relative;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--sand) transparent;
+  }
+
+  .modal-overlay.open .modal {
+    transform: translateY(0) scale(1);
   }
 
   .modal-close {
@@ -273,18 +457,307 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    font-size: 1rem;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
   }
 
-  /* ── UTILS ── */
+  .modal-close:hover { background: var(--saffron); color: white; }
+
+  .modal-icon { font-size: 3rem; margin-bottom: 16px; }
+
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    color: var(--indigo);
+    margin-bottom: 8px;
+  }
+
+  .modal-chapter-tag {
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--saffron);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .modal-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--earth);
+    margin: 22px 0 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .modal-content h3::before {
+    content: '';
+    width: 18px; height: 2px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .modal-content p, .modal-content li {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .modal-content ul {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .modal-content li {
+    padding: 6px 0 6px 20px;
+    position: relative;
+  }
+
+  .modal-content li::before {
+    content: '◆';
+    position: absolute; left: 0;
+    color: var(--gold);
+    font-size: 0.5rem;
+    top: 11px;
+  }
+
+  .fact-box {
+    background: linear-gradient(135deg, rgba(232,132,58,0.08), rgba(212,160,23,0.06));
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+
+  .fact-box .fact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin-bottom: 6px;
+  }
+
+  .fact-box p {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .cross-links {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .cross-links-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .cross-links-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cross-link-pill {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 0.75rem;
+    color: var(--earth);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .cross-link-pill:hover {
+    background: var(--saffron);
+    color: white;
+    border-color: var(--saffron);
+  }
+
+  /* ── DIVIDER ── */
+  .chapter-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 24px;
+    max-width: 1100px;
+    margin: 0 auto 0;
+  }
+
+  .chapter-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+
+  .chapter-divider-symbol {
+    color: var(--gold);
+    font-size: 1.2rem;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding: 20px 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), var(--saffron), transparent);
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .timeline-dot {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--parchment);
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-content {
+    flex: 1;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+  }
+
+  .timeline-content h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--indigo);
+    margin-bottom: 6px;
+  }
+
+  .timeline-content p {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── QUIZ BOX ── */
+  .quiz-section {
+    background: linear-gradient(135deg, var(--indigo), #0D1A3A);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 50px 0;
+    color: white;
+  }
+
+  .quiz-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .quiz-section p {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    margin-bottom: 28px;
+  }
+
+  .quiz-q {
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .quiz-q-text {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .quiz-opt {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    color: white;
+  }
+
+  .quiz-opt:hover { background: rgba(232,132,58,0.25); border-color: var(--saffron); }
+  .quiz-opt.correct { background: rgba(45,80,22,0.5); border-color: #4CAF50; }
+  .quiz-opt.wrong { background: rgba(200,50,50,0.3); border-color: #E53935; }
+
+  /* ── TABLE ── */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 20px 0;
+  }
+
+  .info-table th {
+    background: var(--indigo);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+  }
+
+  .info-table th:first-child { border-radius: 8px 0 0 0; }
+  .info-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .info-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+
+  .info-table tr:nth-child(even) td { background: rgba(245,232,206,0.3); }
+  .info-table tr:hover td { background: rgba(232,132,58,0.06); }
+
+  /* ── SCROLL PROGRESS ── */
   .progress-bar {
     position: fixed;
     top: 0; left: 0;
     height: 3px;
     background: linear-gradient(to right, var(--saffron), var(--gold));
     z-index: 999;
-    width: 0%;
+    transition: width 0.1s;
   }
 
+  /* ── SCROLL TO TOP ── */
   .scroll-top {
     position: fixed;
     bottom: 30px; right: 30px;
@@ -293,41 +766,112 @@
     color: white;
     border: none;
     border-radius: 50%;
+    font-size: 1.2rem;
     cursor: pointer;
-    display: none;
-  }
-
-  .timeline-dot-custom {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    font-size: 12px;
-    color: var(--muted);
-    opacity: 0.5;
-    z-index: 1000;
-  }
-
-  /* Button for website feel */
-  .cta-button {
-    background: var(--saffron);
-    color: white;
-    padding: 14px 32px;
-    border-radius: 100px;
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-block;
+    box-shadow: 0 4px 20px rgba(26,43,94,0.3);
     transition: all 0.3s;
-    border: none;
-    cursor: pointer;
+    display: none;
+    z-index: 50;
   }
-  .cta-button:hover { background: var(--deep-saffron); transform: scale(1.05); }
 
+  .scroll-top.visible { display: flex; align-items: center; justify-content: center; }
+  .scroll-top:hover { background: var(--saffron); transform: translateY(-2px); }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 520px;
+    padding: 14px 24px 14px 50px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: white;
+    color: var(--text);
+    outline: none;
+    box-shadow: 0 4px 20px rgba(139,94,60,0.08);
+    transition: all 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--saffron);
+    box-shadow: 0 4px 20px rgba(232,132,58,0.15);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: calc(50% - 236px);
+    top: 50%; transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    .topics-grid { grid-template-columns: 1fr; }
+    .chapter-header { flex-direction: column; gap: 12px; }
+    .chapter-num { font-size: 3rem; }
+    .quiz-options { grid-template-columns: 1fr; }
+    .modal { padding: 28px 22px; }
+    .search-icon { left: 36px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="progress-bar" id="progressBar"></div>
-<div class="timeline-dot-custom">Made by Ritesh Kumar Mahato | Instagram: riteshoon</div>
+<div class="watermark">Made by Ritesh Kumar Mahato | Instagram: @riteshoon</div>
+
+<!-- HERO / HOME -->
+<section class="hero main-page" id="home">
+  <div class="hero-mandala"></div>
+  <span class="hero-badge">AMC 1001 · Interactive Study Guide</span>
+  <h1>Indian<br><span>Knowledge</span><br>System</h1>
+  <p class="hero-sanskrit">न हि ज्ञानेन सदृशं पवित्रमिह विद्यते</p>
+  <p class="hero-translation">— There is nothing as purifying as knowledge — Bhagavad Gita 4.38</p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">6</span>
+      <span class="stat-label">Chapters</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">400+</span>
+      <span class="stat-label">Pages</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5000+</span>
+      <span class="stat-label">Years of Knowledge</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Wisdom</span>
+    </div>
+  </div>
+
+  <button class="cta-button" onclick="showPage('ch1')">Enter Study Guide</button>
+
+  <div class="hero-scroll" style="margin-top: 40px;">
+    <span>Explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-wrap" id="searchBar">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" type="text" id="searchInput" placeholder="Search topics, terms, concepts…" oninput="filterTopics(this.value)">
+</div>
 
 <!-- NAV -->
 <nav class="sticky-nav">
@@ -340,217 +884,2066 @@
     <a href="#ch5" class="nav-item" onclick="showPage('ch5')">🔤 Ch 5</a>
     <a href="#ch6" class="nav-item" onclick="showPage('ch6')">🔢 Ch 6</a>
     <a href="#quiz" class="nav-item" onclick="showPage('quiz')">🧠 Quiz</a>
+    <a href="#connections" class="nav-item" onclick="showPage('connections')">🔗 Links</a>
   </div>
 </nav>
 
 <!-- ═══════════════════════════════════════════ -->
-<!-- HOME PAGE -->
-<!-- ═══════════════════════════════════════════ -->
-<div id="home" class="main-page active">
-  <section class="hero">
-    <div class="hero-mandala"></div>
-    <span class="hero-badge">AMC 1001 · Interactive Study Guide</span>
-    <h1>Indian<br><span>Knowledge</span><br>System</h1>
-    <p class="hero-sanskrit">न हि ज्ञानेन सदृशं पवित्रमिह विद्यते</p>
-    <p class="hero-translation">— There is nothing as purifying as knowledge — Bhagavad Gita 4.38</p>
-    <div style="margin-top: 30px;">
-      <button class="cta-button" onclick="showPage('ch1')">Start Learning Guide</button>
-    </div>
-  </section>
-</div>
-
-<!-- ═══════════════════════════════════════════ -->
 <!-- CHAPTER 1 -->
 <!-- ═══════════════════════════════════════════ -->
-<div id="ch1" class="main-page">
-  <section class="chapter-section">
-    <div class="chapter-header">
-      <span class="chapter-num">1</span>
-      <div class="chapter-meta">
-        <div class="chapter-tag">Chapter 1 · Foundation</div>
-        <h2 class="chapter-title">IKS Overview</h2>
-        <p class="chapter-desc">Exploring identity, cultural value, and the classification framework of Indian Knowledge Systems.</p>
-      </div>
+<section class="chapter-section" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">1</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Chapter 1 · Foundation</div>
+      <h2 class="chapter-title">Indian Knowledge System<br>An Overview</h2>
+      <p class="chapter-desc">What is IKS, why does it matter, and how is this vast 5000-year body of knowledge organised? This chapter lays the groundwork — identity, cultural value, economic power, and a complete classification framework.</p>
     </div>
-    <div class="topics-grid">
-      <div class="topic-card" onclick="openModal('importance')">
-        <div class="topic-title">Why Study IKS?</div>
-        <p class="topic-preview">Identity, Culture, Received Wisdom, and Economic Value.</p>
-      </div>
-      <div class="topic-card" onclick="openModal('define')">
-        <div class="topic-title">Defining IKS</div>
-        <p class="topic-preview">Knowledge validated through experience, passed on through generations.</p>
-      </div>
-      <div class="topic-card" onclick="openModal('classification')">
-        <div class="topic-title">Classification Framework</div>
-        <p class="topic-preview">Caturdasa-Vidyasthana — 14 branches of knowledge.</p>
-      </div>
+  </div>
+
+  <div class="topics-grid" id="ch1-grid">
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="iks importance identity culture" onclick="openModal('importance')">
+      <span class="topic-icon">🌟</span>
+      <div class="topic-title">Why Study IKS?</div>
+      <p class="topic-preview">From palm manuscripts gathering dust to the next global knowledge-power paradigm. Four pillars of importance.</p>
+      <span class="topic-link">Explore ›</span>
     </div>
-  </section>
-</div>
+
+    <div class="topic-card" style="--card-color: #2D5016" data-keywords="iks definition meaning corpus" onclick="openModal('define')">
+      <span class="topic-icon">📚</span>
+      <div class="topic-title">Defining IKS</div>
+      <p class="topic-preview">IKS is knowledge validated through deep experience, observation, experimentation, and analysis — then passed on through generations.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="classification framework caturdasa vidyasthana" onclick="openModal('classification')">
+      <span class="topic-icon">🗂️</span>
+      <div class="topic-title">IKS Classification Framework</div>
+      <p class="topic-preview">Caturdasa-Vidyasthana — 14 branches of knowledge. From Vedas and Vedangas to Niti-Sastra, Ayurveda, and Architecture.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #D4A017" data-keywords="brihadeshwara temple history" onclick="openModal('temple')">
+      <span class="topic-icon">🏛️</span>
+      <div class="topic-title">IKS In Action: Brihadeshwara Temple</div>
+      <p class="topic-preview">60,000 tons of granite, no shadow, 80-ton kumbham — Raja Raja Chola's 1010 CE engineering marvel that defies modern logic.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #8B5E3C" data-keywords="sanatana dharma buddhism jainism" onclick="openModal('traditions')">
+      <span class="topic-icon">☸️</span>
+      <div class="topic-title">Other Dharmic Traditions</div>
+      <p class="topic-preview">Buddhist and Jain contributions dating back to 500 BCE — alongside Sanatana Dharma within the IKS corpus.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #C45E1A" data-keywords="historicity iks myths facts" onclick="openModal('historicity')">
+      <span class="topic-icon">🔎</span>
+      <div class="topic-title">Historicity & Myths of IKS</div>
+      <p class="topic-preview">Separating fact from myth — understanding the genuine antiquity and continuity of Indian knowledge traditions.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"><div class="chapter-divider-line"></div><span class="chapter-divider-symbol">✦</span><div class="chapter-divider-line"></div></div>
 
 <!-- ═══════════════════════════════════════════ -->
 <!-- CHAPTER 2 -->
 <!-- ═══════════════════════════════════════════ -->
-<div id="ch2" class="main-page">
-  <section class="chapter-section">
-    <div class="chapter-header">
-      <span class="chapter-num">2</span>
-      <div class="chapter-meta">
-        <h2 class="chapter-title">The Vedic Corpus</h2>
-        <p class="chapter-desc">The oldest religious texts humanity has — four Vedas and their divisions.</p>
-      </div>
+<section class="chapter-section" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">2</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Chapter 2 · The Canon</div>
+      <h2 class="chapter-title">The Vedic Corpus</h2>
+      <p class="chapter-desc">The oldest religious texts humanity has — four Vedas, their four-fold divisions, the Vedangas, and how Vedic life was organised around Yajna and knowledge transmission.</p>
     </div>
-    <div class="topics-grid">
-      <div class="topic-card" onclick="openModal('vedas-intro')">
-        <div class="topic-title">Intro to Vedas</div>
-        <p class="topic-preview">Apauruseya — of non-human origin.</p>
-      </div>
-      <div class="topic-card" onclick="openModal('rigveda')">
-        <div class="topic-title">Rigveda</div>
-        <p class="topic-preview">1028 hymns, 10,552 verses, oldest text.</p>
-      </div>
-      <div class="topic-card" onclick="openModal('yajurveda')">
-        <div class="topic-title">Yajurveda</div>
-        <p class="topic-preview">The practical manual for ritual performance.</p>
-      </div>
+  </div>
+
+  <div class="topics-grid" id="ch2-grid">
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="vedas introduction sruti apauruseya" onclick="openModal('vedas-intro')">
+      <span class="topic-icon">🔱</span>
+      <div class="topic-title">Introduction to Vedas</div>
+      <p class="topic-preview">Apauruseya (non-human origin), revealed to Rishis through meditation. The word 'Veda' comes from 'Vidhi' — knowledge.</p>
+      <span class="topic-link">Explore ›</span>
     </div>
-  </section>
-</div>
+
+    <div class="topic-card" style="--card-color: #2D5016" data-keywords="rigveda oldest hymns mandala gayatri" onclick="openModal('rigveda')">
+      <span class="topic-icon">📖</span>
+      <div class="topic-title">Rigveda — The Oldest Text</div>
+      <p class="topic-preview">1028 hymns, 10,552 verses, composed ~1700 BCE. Contains the Gayatri Mantra and mentions 25+ women Rishis. The universe's origin story.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="yajurveda ritual sacrifice altar" onclick="openModal('yajurveda')">
+      <span class="topic-icon">🔥</span>
+      <div class="topic-title">Yajurveda — Book of Rituals</div>
+      <p class="topic-preview">The practical manual for ritual performance. Divided into Sukla (White) and Krishna (Black) branches by Yajnavalkya and Vaisampayana.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #D4A017" data-keywords="samaveda music melody swara classical" onclick="openModal('samaveda')">
+      <span class="topic-icon">🎵</span>
+      <div class="topic-title">Samaveda — Foundation of Music</div>
+      <p class="topic-preview">1875 verses; foundation of Indian classical music and the concept of swara. Basis for Dhrupad and classical ragas still sung today.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #8B5E3C" data-keywords="atharvaveda magic healing medicine" onclick="openModal('atharvaveda')">
+      <span class="topic-icon">⚕️</span>
+      <div class="topic-title">Atharvaveda — Healing & Magic</div>
+      <p class="topic-preview">736 hymns, 6077 verses across 20 Kandas. Named after healer-sage Atharvan. Contains Mundaka, Mandukya & Prashna Upanishads.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #C45E1A" data-keywords="four divisions samhita brahmana aranyaka upanishad" onclick="openModal('fourdivisions')">
+      <span class="topic-icon">📑</span>
+      <div class="topic-title">Four Divisions of Each Veda</div>
+      <p class="topic-preview">Samhitas → Brahmanas → Aranyakas → Upanishads. From outer ritual to inner wisdom — the complete path of knowledge.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="vedangas shiksha kalpa nirukta" onclick="openModal('vedangas')">
+      <span class="topic-icon">🌿</span>
+      <div class="topic-title">Vedangas — Limbs of the Veda</div>
+      <p class="topic-preview">Six auxiliary disciplines: Shiksha (phonetics), Kalpa (ritual), Vyakarana (grammar), Nirukta (etymology), Chandas (metre), Jyotisha (astronomy).</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="vedic life yajna altar Syena citi" onclick="openModal('vedic-life')">
+      <span class="topic-icon">🏔️</span>
+      <div class="topic-title">Vedic Life & Yajna</div>
+      <p class="topic-preview">Yajna was central to Vedic life. The Syena-Citi altar at Purola, Uttarakhand (1st c BCE – 2nd c CE) shows the falcon-shaped fire altar tradition.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"><div class="chapter-divider-line"></div><span class="chapter-divider-symbol">✦</span><div class="chapter-divider-line"></div></div>
 
 <!-- ═══════════════════════════════════════════ -->
 <!-- CHAPTER 3 -->
 <!-- ═══════════════════════════════════════════ -->
-<div id="ch3" class="main-page">
-  <section class="chapter-section">
-    <div class="chapter-header">
-      <span class="chapter-num">3</span>
-      <h2 class="chapter-title">Philosophical Systems</h2>
+<section class="chapter-section" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">3</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Chapter 3 · The Quest for Truth</div>
+      <h2 class="chapter-title">Philosophical Systems in IKS</h2>
+      <p class="chapter-desc">India's most extraordinary intellectual contribution — nine major schools of thought (six Vedic, three Non-Vedic) each rigorously answering: Who am I? What is real? How do I attain liberation?</p>
     </div>
-    <div class="topics-grid">
-      <div class="topic-card" onclick="openModal('samkhya')">
-        <div class="topic-title">Samkhya</div>
-        <p class="topic-preview">Dualism of Purusa and Prakriti.</p>
-      </div>
-      <div class="topic-card" onclick="openModal('yoga-darshana')">
-        <div class="topic-title">Yoga Darśana</div>
-        <p class="topic-preview">The 8-Limbed Path to Samadhi.</p>
-      </div>
-      <div class="topic-card" onclick="openModal('vedanta')">
-        <div class="topic-title">Vedanta</div>
-        <p class="topic-preview">Advaita, Vishishtadvaita, and Dvaita.</p>
-      </div>
+  </div>
+
+  <div class="topics-grid" id="ch3-grid">
+
+    <div class="topic-card" style="--card-color: #7C3AED" data-keywords="darsana philosophy overview unique features brahman atman" onclick="openModal('darsana-intro')">
+      <span class="topic-icon">🌐</span>
+      <div class="topic-title">What is Darśana?</div>
+      <p class="topic-preview">Darsana means 'to see' — a holistic worldview. Indian philosophy uniquely combines intellect with self-experience. All schools share the goal: know WHO you are.</p>
+      <span class="topic-link">Explore ›</span>
     </div>
-  </section>
-</div>
+
+    <div class="topic-card" style="--card-color: #B45309" data-keywords="vedic non-vedic astika nastika schools classification" onclick="openModal('schools-overview')">
+      <span class="topic-icon">🌳</span>
+      <div class="topic-title">Vedic vs. Non-Vedic Schools</div>
+      <p class="topic-preview">6 Astika (Vedic) schools: Samkhya, Yoga, Nyaya, Vaisesika, Mimamsa, Vedanta. 3 Nastika (Non-Vedic): Jaina, Bauddha, Carvaka.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #0F766E" data-keywords="samkhya prakriti purusa gunas sattva rajas tamas liberation kaivalya" onclick="openModal('samkhya')">
+      <span class="topic-icon">⚖️</span>
+      <div class="topic-title">Sāṃkhya — The School of Dualism</div>
+      <p class="topic-preview">Two eternal realities: Purusa (pure consciousness) and Prakriti (matter). Three gunas — Sattva, Rajas, Tamas. Liberation = knowing you are NOT Prakriti.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #7C3AED" data-keywords="yoga patanjali ashtanga eight limbs yama niyama asana pranayama samadhi" onclick="openModal('yoga-darshana')">
+      <span class="topic-icon">🧘</span>
+      <div class="topic-title">Yoga Darśana — 8 Steps to Samadhi</div>
+      <p class="topic-preview">Founded by Rishi Patanjali. Ashtanga Yoga: Yama → Niyama → Asana → Pranayama → Pratyahara → Dharana → Dhyana → Samadhi.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #0369A1" data-keywords="nyaya logic gautama valid knowledge inference perception liberation" onclick="openModal('nyaya')">
+      <span class="topic-icon">🔍</span>
+      <div class="topic-title">Nyāya — The School of Logic</div>
+      <p class="topic-preview">Founded by Rishi Gautama. Liberation through correct knowledge. Nyaya systematised Indian logic, debate rules, and epistemology (Pramanas).</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #BE185D" data-keywords="vaisesika kanada atomism categories paramanu diversity samanya vishesha" onclick="openModal('vaisesika')">
+      <span class="topic-icon">⚛️</span>
+      <div class="topic-title">Vaiśeṣika — The School of Atomism</div>
+      <p class="topic-preview">Founded by Rishi Kanada. Reality is built from ultimate indivisible atoms (Paramanus). Classifies all knowable entities into categories: Samanya, Vishesha, etc.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #B45309" data-keywords="mimamsa purva uttara karma kanda vedic rituals dharma" onclick="openModal('mimamsa')">
+      <span class="topic-icon">🔥</span>
+      <div class="topic-title">Mīmāṃsā — Vedic Ritual Philosophy</div>
+      <p class="topic-preview">Purva Mimamsa focuses on ritual karma-kanda; Uttara Mimamsa (Vedanta) on the knowledge-kanda. The bridge between Yajna and liberation.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #7C3AED" data-keywords="vedanta advaita vishishtadvaita dvaita sankara ramanuja madhva brahman maya" onclick="openModal('vedanta')">
+      <span class="topic-icon">✨</span>
+      <div class="topic-title">Vedānta — Three Schools of Brahman</div>
+      <p class="topic-preview">Advaita (Sankara): world is Maya, Jiva = Brahman. Vishishtadvaita (Ramanuja): Bhakti to personal God. Dvaita (Madhvacarya): God and Jiva are eternally distinct.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #0F766E" data-keywords="jaina philosophy mahavira tirthankara ahimsa syadvada karma pudgala" onclick="openModal('jaina')">
+      <span class="topic-icon">☸️</span>
+      <div class="topic-title">Jaina Philosophy</div>
+      <p class="topic-preview">24 Tirthankaras. Syadvada: knowledge is relative (7 possibilities). Karma as physical particles. Liberation through Right Faith + Right Knowledge + Right Conduct.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #0369A1" data-keywords="buddha four noble truths eightfold path nirvana suffering thirst" onclick="openModal('bauddhа')">
+      <span class="topic-icon">🪷</span>
+      <div class="topic-title">Bauddha Philosophy</div>
+      <p class="topic-preview">Four Noble Truths: Suffering exists → caused by thirst → cessation is possible → the Eightfold Path leads there. Ultimate goal: Nirvana attainable in this life.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #BE185D" data-keywords="carvaka materialism lokayata pratyaksha no afterlife pleasure matter" onclick="openModal('carvaka')">
+      <span class="topic-icon">🌍</span>
+      <div class="topic-title">Cārvāka — Radical Materialism</div>
+      <p class="topic-preview">Only matter is real. Direct perception is the only valid knowledge. No God, no afterlife, no rebirth. The goal of life: experience pleasure here and now.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"><div class="chapter-divider-line"></div><span class="chapter-divider-symbol">✦</span><div class="chapter-divider-line"></div></div>
 
 <!-- ═══════════════════════════════════════════ -->
-<!-- CHAPTER 4-6 & QUIZ (Summarized for brevity in code write) -->
+<!-- CHAPTER 4 -->
 <!-- ═══════════════════════════════════════════ -->
-<div id="ch4" class="main-page"><section class="chapter-section"><h2 class="chapter-title">Chapter 4: Wisdom Through Ages</h2></section></div>
-<div id="ch5" class="main-page"><section class="chapter-section"><h2 class="chapter-title">Chapter 5: Linguistics & Panini</h2></section></div>
-<div id="ch6" class="main-page"><section class="chapter-section"><h2 class="chapter-title">Chapter 6: Number System</h2></section></div>
+<section class="chapter-section" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">4</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Chapter 4 · The Living Tradition</div>
+      <h2 class="chapter-title">Wisdom Through the Ages</h2>
+      <p class="chapter-desc">Puranas, Epics, Niti-Sastras — this chapter covers the encyclopaedic literary works that preserved India's civilisational wisdom across millennia through stories, astronomy, medicine, and ethics.</p>
+    </div>
+  </div>
 
-<div id="quiz" class="main-page">
-  <section class="chapter-section">
-    <div class="quiz-section">
-      <h3>🧠 Quick Knowledge Check</h3>
-      <div class="quiz-q" id="q1">
-        <div class="quiz-q-text">1. What does "Apauruseya" mean?</div>
-        <div class="quiz-options">
-          <button class="quiz-opt" onclick="answer(this, true)">Of non-human origin</button>
-          <button class="quiz-opt" onclick="answer(this, false)">Written by humans</button>
-        </div>
+  <div class="topics-grid" id="ch4-grid">
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="panchatantra statecraft stories animals" onclick="openModal('panchatantra')">
+      <span class="topic-icon">🦊</span>
+      <div class="topic-title">Panchatantra — Statecraft via Stories</div>
+      <p class="topic-preview">Vishnu Sarman's genius: five tantras teaching governance, ethics, and morals through animal fables. The world's most widely translated book after the Bible.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="puranas encyclopedia mahaputanas upa sthala" onclick="openModal('puranas')">
+      <span class="topic-icon">📜</span>
+      <div class="topic-title">Puranas — The Encyclopaedia</div>
+      <p class="topic-preview">18 Maha-puranas, 4,00,000 verses. Maha, Upa, and Sthala Puranas — a storehouse of philosophy, religion, astronomy, medicine, and society.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #2D5016" data-keywords="panchalaksanas sarga pratisarga vamsa manvantara" onclick="openModal('panchalaksanas')">
+      <span class="topic-icon">🌀</span>
+      <div class="topic-title">Pañcalakṣaṇas — Five Characteristics</div>
+      <p class="topic-preview">Every Purana is defined by: Sarga (creation), Prati-sarga (re-creation), Vamsa (dynasties), Manvantara (time-cycles), Vamsanucarita (lineage stories).</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #D4A017" data-keywords="puranas science astronomy plant medicine" onclick="openModal('puranas-science')">
+      <span class="topic-icon">🔭</span>
+      <div class="topic-title">Science in the Puranas</div>
+      <p class="topic-preview">Astronomy, foetal development, plant medicine — 75 medicinal plants in Matsya-purana, mental health treatment in Agni-purana, pre-telescopic astronomy.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #8B5E3C" data-keywords="ramayana mahabharata epics" onclick="openModal('epics')">
+      <span class="topic-icon">⚔️</span>
+      <div class="topic-title">The Two Great Epics</div>
+      <p class="topic-preview">Ramayana and Mahabharata — contrasting approaches to dharma, dharmic duty, and governance. How they differ and why both matter.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #C45E1A" data-keywords="niti sastra vidura subhasitas chanakya" onclick="openModal('niti')">
+      <span class="topic-icon">⚖️</span>
+      <div class="topic-title">Niti-Sastras & Subhasitas</div>
+      <p class="topic-preview">Vidura-niti, Chanakya-niti, and Subhasitas (wise sayings) — practical wisdom for life, leadership, and good governance distilled into memorable verses.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="sthala purana mumbai murugan kanchipuram" onclick="openModal('sthala')">
+      <span class="topic-icon">🛕</span>
+      <div class="topic-title">Sthala-Puranas — Sacred Geographies</div>
+      <p class="topic-preview">Each tied to a sacred place: Mumbadevi Mahatmya (Mumbai), Kanda Puranam (Murugan/Kanchipuram), Kanyakumari Ksetra, and more.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="puranas purushartha dharma artha kama moksha" onclick="openModal('purushartha')">
+      <span class="topic-icon">🎯</span>
+      <div class="topic-title">Four Goals of Life (Puruṣārthas)</div>
+      <p class="topic-preview">Dharma (righteous living), Artha (wealth), Kama (desires), Moksha (liberation) — the Puranas' guide to a complete human life.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"><div class="chapter-divider-line"></div><span class="chapter-divider-symbol">✦</span><div class="chapter-divider-line"></div></div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHAPTER 5 -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="chapter-section" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">5</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Chapter 5 · The Science of Language</div>
+      <h2 class="chapter-title">Linguistics — Panini's Sanskrit<br>Grammar & Phonetics</h2>
+      <p class="chapter-desc">How a grammarian from the Indus Valley created the world's first computational language machine — the Ashtadhyayi — 2500 years before computers were invented. The Father of Linguistics.</p>
+    </div>
+  </div>
+
+  <div class="topics-grid" id="ch5-grid">
+
+    <div class="topic-card" style="--card-color: #92400E" data-keywords="panini introduction biography daksiputra sanskrit grammarian" onclick="openModal('panini-intro')">
+      <span class="topic-icon">🧙</span>
+      <div class="topic-title">Who Was Pāṇini?</div>
+      <p class="topic-preview">Full name: Daksiputra Panini. Born in Shala Tula (modern Pakistan) on the Indus. Called the Father of Linguistics and the World's First Geek. Dates: 4th–7th century BCE.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1D4ED8" data-keywords="ashtadhyayi 4000 sutras grammar language machine algorithm" onclick="openModal('ashtadhyayi')">
+      <span class="topic-icon">📐</span>
+      <div class="topic-title">Aṣṭādhyāyī — The Language Machine</div>
+      <p class="topic-preview">~4000 sutras across 8 chapters. A rule-based algorithm to generate any grammatically correct Sanskrit word or sentence. The world's first generative grammar.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #0F766E" data-keywords="word generation base suffix root nominal verbal karmaphala" onclick="openModal('word-gen')">
+      <span class="topic-icon">⚙️</span>
+      <div class="topic-title">How the Language Machine Works</div>
+      <p class="topic-preview">Base + Suffix = Word. Karma + Phala = Karmaphala. Verb roots (krt, path, gach) × suffixes × prefixes (upa-sargas) = infinite valid words.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #7C3AED" data-keywords="phonetics shiksha svaravijnana oral tradition sound production" onclick="openModal('phonetics')">
+      <span class="topic-icon">🔊</span>
+      <div class="topic-title">Phonetics (Śikṣā) — The Science of Sound</div>
+      <p class="topic-preview">Shiksha = phonetics in Sanskrit. Rules for correct sound production essential for oral Vedic tradition. Place of pronunciation: Throat → Palate → Upper Palate → Teeth → Lips → Nasal.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #BE185D" data-keywords="sanskrit alphabet varnamala vowels swaras consonants vyanjanas" onclick="openModal('alphabet')">
+      <span class="topic-icon">अ</span>
+      <div class="topic-title">Sanskrit Alphabet (Varṇamālā)</div>
+      <p class="topic-preview">13 vowels (Swaras): short, long, and diphthongs. 33 consonants (Vyanjanas): Gutturals, Palatals, Cerebrals, Dentals, Labials, Semi-vowels, Sibilants, Aspirate.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #0369A1" data-keywords="nasal sounds anusvara anunasika visarga pronunciation" onclick="openModal('nasal-sounds')">
+      <span class="topic-icon">〰️</span>
+      <div class="topic-title">Nasal Sounds & Visarga</div>
+      <p class="topic-preview">Anusvara (ं): nasalizes the preceding vowel. Anunasika: nasalizes throughout. Visarga (ः): a breathy aspiration at word-end, e.g. Rāmaḥ, Sarvaḥ.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #92400E" data-keywords="panini legacy impact linguistics modern language Sanskrit preservation" onclick="openModal('panini-legacy')">
+      <span class="topic-icon">🌟</span>
+      <div class="topic-title">Panini's Legacy & Modern Impact</div>
+      <p class="topic-preview">Panini's grammar became the constitution of Sanskrit. His systematic approach laid the groundwork for modern linguistics, phonology, and even computer science (formal grammars).</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="chapter-divider"><div class="chapter-divider-line"></div><span class="chapter-divider-symbol">✦</span><div class="chapter-divider-line"></div></div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHAPTER 6 -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="chapter-section" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">6</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Chapter 6 · The Science of Numbers</div>
+      <h2 class="chapter-title">Number System in India<br>& Its Historical Evidence</h2>
+      <p class="chapter-desc">How India invented zero, the place-value system, binary notation, and large number names — and how these ideas quietly conquered the world.</p>
+    </div>
+  </div>
+
+  <div class="topics-grid" id="ch6-grid">
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="number system india historical evidence buddha" onclick="openModal('numhist')">
+      <span class="topic-icon">🔢</span>
+      <div class="topic-title">Historical Evidence</div>
+      <p class="topic-preview">Buddha's contest naming numbers up to 10⁵³. Gwalior temple inscription (9th c CE) — the world's oldest recorded zero. Kalibangan's precise street ratios.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #2D5016" data-keywords="zero shunya brahmagupta invention" onclick="openModal('zero')">
+      <span class="topic-icon">0️⃣</span>
+      <div class="topic-title">Concept of Zero (Śūnya)</div>
+      <p class="topic-preview">Developed 500–300 BCE, fully formalised by 600 CE. In 628 CE, Brahmagupta gave arithmetic rules for zero — elevating it from placeholder to numeral.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="place value decimal system modern" onclick="openModal('placevalue')">
+      <span class="topic-icon">📊</span>
+      <div class="topic-title">Place Value & Decimal System</div>
+      <p class="topic-preview">Each digit gains value based on position. Bhaskaracarya's Lilavati mentions ancestors' place-value in multiples of ten. The rest of the world adopted it after the 11th century CE.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #D4A017" data-keywords="large numbers names koṭi tallakṣaṇa upanishad" onclick="openModal('largenum')">
+      <span class="topic-icon">♾️</span>
+      <div class="topic-title">Large Number Names</div>
+      <p class="topic-preview">Unique Sanskrit names from eka (1) through koṭi (10⁷) to tallakṣaṇa (10⁵³). Chandogya and Taittiriya Upanishads contain astronomical numbers.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #8B5E3C" data-keywords="pingala binary system chandas" onclick="openModal('pingala')">
+      <span class="topic-icon">💻</span>
+      <div class="topic-title">Pingala & the Binary System</div>
+      <p class="topic-preview">Pingala's Chandas-sutra (c. 300 BCE) described binary sequences for Sanskrit metres — the earliest known precursor to modern binary computation.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #C45E1A" data-keywords="bhuta samkhya katapayadi decimal system" onclick="openModal('encodings')">
+      <span class="topic-icon">🔤</span>
+      <div class="topic-title">Bhūta-Saṅkhyā & Kaṭapayādi Systems</div>
+      <p class="topic-preview">Two brilliant encoding systems: Bhuta-Samkhya uses words for digits (e.g., 'moon' = 1, 'eyes' = 2), Katapayadi encodes numbers in Sanskrit consonants.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #1A2B5E" data-keywords="roman numerals limitations comparison" onclick="openModal('roman')">
+      <span class="topic-icon">🏛️</span>
+      <div class="topic-title">Roman Numerals vs. Hindu-Arabic System</div>
+      <p class="topic-preview">Why Rome's system failed: no zero, cumbersome large numbers, impossible arithmetic. Why India's system won — and how Fibonacci spread it to Europe.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+    <div class="topic-card" style="--card-color: #E8843A" data-keywords="spread fibonacci al-khwarizmi laplace europe" onclick="openModal('spread')">
+      <span class="topic-icon">🌍</span>
+      <div class="topic-title">How Indian Math Conquered the World</div>
+      <p class="topic-preview">From India → Arab world (8th c.) → Al-Khwarizmi's 820 CE book → Latin translation → Fibonacci's advocacy → European adoption. A 1000-year journey.</p>
+      <span class="topic-link">Explore ›</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- QUIZ -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="chapter-section" id="quiz">
+  <div class="quiz-section">
+    <h3>🧠 Quick Knowledge Check</h3>
+    <p>Test your understanding across all chapters</p>
+
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text">1. What does "Apauruseya" mean in the context of the Vedas?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false)">Written by the greatest sages</button>
+        <button class="quiz-opt" onclick="answer(this, true)">Of non-human origin</button>
+        <button class="quiz-opt" onclick="answer(this, false)">Composed during the Gupta era</button>
+        <button class="quiz-opt" onclick="answer(this, false)">Transmitted through dance</button>
       </div>
     </div>
-  </section>
-</div>
 
-<!-- MODAL OVERLAY -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text">2. In which year did Brahmagupta define arithmetic rules for zero?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false)">500 BCE</button>
+        <button class="quiz-opt" onclick="answer(this, false)">300 CE</button>
+        <button class="quiz-opt" onclick="answer(this, true)">628 CE</button>
+        <button class="quiz-opt" onclick="answer(this, false)">820 CE</button>
+      </div>
+    </div>
+
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text">3. Panchatantra was written by which teacher to educate three princes in statecraft?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false)">Chanakya</button>
+        <button class="quiz-opt" onclick="answer(this, false)">Vyasa</button>
+        <button class="quiz-opt" onclick="answer(this, true)">Vishnu Sarman</button>
+        <button class="quiz-opt" onclick="answer(this, false)">Panini</button>
+      </div>
+    </div>
+
+    <div class="quiz-q" id="q4">
+      <div class="quiz-q-text">4. How many Maha-puranas are there, and approximately how many verses do they contain?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false)">12 Puranas, 2,00,000 verses</button>
+        <button class="quiz-opt" onclick="answer(this, true)">18 Puranas, 4,00,000 verses</button>
+        <button class="quiz-opt" onclick="answer(this, false)">18 Puranas, 1,00,000 verses</button>
+        <button class="quiz-opt" onclick="answer(this, false)">24 Puranas, 6,00,000 verses</button>
+      </div>
+    </div>
+
+    <div class="quiz-q" id="q5">
+      <div class="quiz-q-text">5. Which Veda is considered the foundation of Indian classical music?</div>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answer(this, false)">Rigveda</button>
+        <button class="quiz-opt" onclick="answer(this, false)">Yajurveda</button>
+        <button class="quiz-opt" onclick="answer(this, true)">Samaveda</button>
+        <button class="quiz-opt" onclick="answer(this, false)">Atharvaveda</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CROSS-CHAPTER CONNECTIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="chapter-section" id="connections">
+  <div class="chapter-header">
+    <span class="chapter-num" style="color:rgba(26,43,94,0.15)">🔗</span>
+    <div class="chapter-meta">
+      <div class="chapter-tag">Synthesis · Cross-Chapter Links</div>
+      <h2 class="chapter-title">How the Chapters Connect</h2>
+      <p class="chapter-desc">IKS is not four separate topics — it's one living system. Here is how each chapter's key ideas flow into the others.</p>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot">📖</div>
+      <div class="timeline-content">
+        <h4>Ch 1 ↔ Ch 2: IKS Overview grounds the Vedic Study</h4>
+        <p>The IKS Classification Framework (Ch 1) places the Vedas and Vedangas at the very top of its hierarchy. Understanding <em>why</em> IKS matters (Ch 1) makes the content of the Vedic Corpus (Ch 2) feel urgent rather than academic.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🧘</div>
+      <div class="timeline-content">
+        <h4>Ch 2 ↔ Ch 3: The Vedas Birth the Darśanas</h4>
+        <p>The philosophical inquiry that started in Rigveda's Nasadiya-sukta and the Upanishads (Ch 2) gave rise to the six Vedic schools of philosophy (Ch 3). Vedanta (Ch 3) is literally the Uttara Mimamsa — the philosophical culmination of the Vedic Corpus. Yoga Darshana's Yama directly mirrors Jain Mahavrata.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🔥</div>
+      <div class="timeline-content">
+        <h4>Ch 2 ↔ Ch 4: The Vedas Feed into the Puranas</h4>
+        <p>The Vedas (Ch 2) are the root; the Puranas (Ch 4) are companion texts that help interpret them. The Brahmanas section of each Veda describes Yajna — the same Yajna culture the Puranas elaborate upon through narrative. Vedangas like Jyotisha connect directly to the astronomy in the Puranas.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🔤</div>
+      <div class="timeline-content">
+        <h4>Ch 2 ↔ Ch 5: Vedangas Become Panini's Science</h4>
+        <p>Vyakarana (grammar) and Shiksha (phonetics) are two of the six Vedangas (Ch 2). Chapter 5 takes these Vedangas and explores them in full depth through Panini's Ashtadhyayi. Without Ch 2's Vedanga framework, Ch 5 is just a grammar lesson; with it, it's the culmination of a millennia-long tradition.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">📜</div>
+      <div class="timeline-content">
+        <h4>Ch 4 ↔ Ch 6: Puranas Contain Number & Astronomy</h4>
+        <p>The Puranas (Ch 4) are not just philosophy — the Brahmanda Purana (Chapters 21-24), Matsya-purana, and Vayu-purana contain the earliest astronomical discourse. Agni-purana and Vayu-purana describe the place-value system — directly linking to Ch 6's number system. Large number names like 'Parārdha' (18th place) appear in Vayu Purana.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🔢</div>
+      <div class="timeline-content">
+        <h4>Ch 5 ↔ Ch 6: Sanskrit Grammar Enables Mathematical Encoding</h4>
+        <p>Pingala's binary system (Ch 6) was invented to describe Sanskrit poetic metres (Chandas) — a direct output of Vedic phonetics and grammar (Ch 5 / Ch 2 Vedangas). The Bhuta-Samkhya encoding system uses Sanskrit words as numbers — impossible without the precise language system Panini systematised (Ch 5).</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🌟</div>
+      <div class="timeline-content">
+        <h4>Ch 1 ↔ Ch 6: IKS Identity & Knowledge Power</h4>
+        <p>Ch 1 argues that knowledge is economic power. Ch 6 proves it: Indian number systems gave the world algebra, algorithms, and computing. Al-Khwarizmi's name became 'algorithm'; our decimal system runs every computer on earth. This is the 'knowledge power' Ch 1 predicted.</p>
+      </div>
+    </div>
+  </div>
+
+  <table class="info-table" style="margin-top:40px">
+    <thead>
+      <tr>
+        <th>Concept</th>
+        <th>First Appears In</th>
+        <th>Also Discussed In</th>
+        <th>Connection</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Zero (Śūnya)</strong></td>
+        <td>Ch 6 (Number System)</td>
+        <td>Ch 4 (Puranas — astronomy)</td>
+        <td>Vayu Purana describes place values</td>
+      </tr>
+      <tr>
+        <td><strong>Astronomy</strong></td>
+        <td>Ch 4 (Puranas)</td>
+        <td>Ch 2 (Vedanga: Jyotisha)</td>
+        <td>Vedic Jyotisha is the precursor</td>
+      </tr>
+      <tr>
+        <td><strong>Grammar (Panini)</strong></td>
+        <td>Ch 2 (Vedangas)</td>
+        <td>Ch 5 (Ashtadhyayi), Ch 6 (Pingala)</td>
+        <td>Sanskrit precision enables number encoding & binary</td>
+      </tr>
+      <tr>
+        <td><strong>Niti-Sastra</strong></td>
+        <td>Ch 1 (IKS Classification)</td>
+        <td>Ch 4 (Panchatantra, Vidura-niti)</td>
+        <td>Ch 1 classifies it; Ch 4 explores it</td>
+      </tr>
+      <tr>
+        <td><strong>Ayurveda / Medicine</strong></td>
+        <td>Ch 1 (IKS Corpus)</td>
+        <td>Ch 4 (Puranas — plants, herbs)</td>
+        <td>Puranas document 75+ medicinal plants</td>
+      </tr>
+      <tr>
+        <td><strong>Music / Swara</strong></td>
+        <td>Ch 2 (Samaveda)</td>
+        <td>Ch 1 (Gandharva Veda), Ch 5 (phonetics)</td>
+        <td>Samaveda → swara system; Shiksha formalises sound rules</td>
+      </tr>
+      <tr>
+        <td><strong>Yoga / Liberation</strong></td>
+        <td>Ch 3 (Yoga Darshana)</td>
+        <td>Ch 1 (IKS corpus), Ch 4 (Puranas — Moksha)</td>
+        <td>Yoga is the practical path; Puranas describe its goal</td>
+      </tr>
+      <tr>
+        <td><strong>Brahman & Atman</strong></td>
+        <td>Ch 2 (Upanishads)</td>
+        <td>Ch 3 (Vedanta — Advaita, Dvaita)</td>
+        <td>Upanishads introduce the concept; Vedanta schools debate its nature</td>
+      </tr>
+      <tr>
+        <td><strong>Logic (Pramana)</strong></td>
+        <td>Ch 3 (Nyaya)</td>
+        <td>Ch 6 (Pingala's binary logic)</td>
+        <td>Nyaya systematised Indian logic; Pingala applied binary logic to metres</td>
+      </tr>
+      <tr>
+        <td><strong>Sanskrit Language</strong></td>
+        <td>Ch 5 (Linguistics)</td>
+        <td>Ch 2 (Vedangas), Ch 6 (Bhuta-Samkhya)</td>
+        <td>Vedas require Sanskrit; Sanskrit precision enables number encoding</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODALS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalBox">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div id="modalContent"></div>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCRIPTS -->
+<!-- ═══════════════════════════════════════════ -->
 <script>
-  // ── ROUTING LOGIC ──
-  function showPage(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.main-page').forEach(page => page.classList.remove('active'));
+// ── MODAL DATA ──
+const modals = {
+  // ── CH3 MODALS ──
+  'darsana-intro': {
+    icon: '🌐', title: 'What is Darśana? Indian Philosophical Systems', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>The Big Questions</h3>
+      <p>Philosophy begins with the unavoidable: avoiding pain, seeking happiness. Indian philosophy asks — What is the Universe? Who am I? What is God? How do I remain happy forever? These are existential questions belonging to the domain of Darśana.</p>
+      <h3>What Does "Darśana" Mean?</h3>
+      <ul>
+        <li>From Sanskrit root <em>drs</em> — "to see"</li>
+        <li>A Darśana is a holistic worldview — a vision for life</li>
+        <li>Unlike Western philosophy, Indian philosophy is closely interwined with religious and spiritual practice</li>
+        <li>Every Darśana specifies both the ultimate goal of life AND the path to reach it</li>
+      </ul>
+      <h3>The Triple Context: Jiva–Jagat–Īśvara</h3>
+      <p>All Indian philosophical inquiry happens within three interconnected concepts: the Individual (Jiva), the Universe (Jagat), and God (Isvara). Understanding their relationship is the key to liberation.</p>
+      <div class="fact-box">
+        <div class="fact-label">The Nasadiya Sukta (Rigveda)</div>
+        <p>The earliest philosophical inquiry: "There was neither existence (Sat) nor non-existence (Asat). Who knows where creation came from? Does even the creator know?" — This spirit of inquiry seeded all Indian philosophy.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('schools-overview')">🌳 Vedic vs Non-Vedic</span>
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Upanishads (Ch 2)</span>
+          <span class="cross-link-pill" onclick="openModal('purushartha')">🎯 Purusharthas (Ch 4)</span>
+        </div>
+      </div>`,
+  },
+  'schools-overview': {
+    icon: '🌳', title: 'Vedic vs. Non-Vedic Schools (Darśanas)', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>The Six Vedic (Āstika) Schools</h3>
+      <p>Vedic schools acknowledge the authority of the Vedas. They share the common goal of liberation from the cycle of birth and death. They differ in their approach:</p>
+      <ul>
+        <li><strong>Samkhya:</strong> Properties of Matter and its role</li>
+        <li><strong>Yoga:</strong> Practical methodology for realising Purusa–Prakriti difference</li>
+        <li><strong>Nyaya:</strong> Valid knowledge of Reality through logic</li>
+        <li><strong>Vaisesika:</strong> Atomism and classification of knowable entities</li>
+        <li><strong>Purva Mimamsa:</strong> Direct guidance of Vedic corpus (ritual)</li>
+        <li><strong>Vedanta:</strong> Direct guidance of Vedic corpus (knowledge/Upanishads)</li>
+      </ul>
+      <h3>The Three Non-Vedic (Nāstika) Schools</h3>
+      <ul>
+        <li><strong>Jaina:</strong> Truth is relative; liberation through non-violence and asceticism</li>
+        <li><strong>Bauddha:</strong> End suffering via the Eightfold Path; Nirvana is attainable</li>
+        <li><strong>Carvaka:</strong> Only matter is real; only direct perception is valid knowledge</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Key Insight</div>
+        <p>Non-Vedic schools do NOT reject Indian culture or spirituality — they simply developed their own independent methods of understanding reality without relying on Vedic scripture.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('samkhya')">⚖️ Samkhya</span>
+          <span class="cross-link-pill" onclick="openModal('vedanta')">✨ Vedanta</span>
+          <span class="cross-link-pill" onclick="openModal('jaina')">☸️ Jaina</span>
+          <span class="cross-link-pill" onclick="openModal('traditions')">☸️ Dharmic Traditions (Ch1)</span>
+        </div>
+      </div>`,
+  },
+  samkhya: {
+    icon: '⚖️', title: 'Sāṃkhya — The School of Dualism', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Core Premise</h3>
+      <p>The root cause of all pain and suffering is <em>lack of correct knowledge</em> (avidya). Everything in the universe is made of two basic elements:</p>
+      <ul>
+        <li><strong>Purusa:</strong> Pure consciousness, sentient, changeless, eternal, passive — the "Self"</li>
+        <li><strong>Prakriti:</strong> Matter — the root cause of all activity and creation</li>
+      </ul>
+      <h3>The Three Gunas of Prakriti</h3>
+      <ul>
+        <li><strong>Sattva:</strong> Light, causes knowledge and pleasure</li>
+        <li><strong>Rajas:</strong> Causes movement and is the cause of pain</li>
+        <li><strong>Tamas:</strong> Heavy, causes ignorance and indifference</li>
+      </ul>
+      <h3>How the Universe Evolves</h3>
+      <p>When Prakriti contacts Purusa, it evolves into: Mahat (Buddhi) → Ahankar (ego) → Mind → 5 Jnanendriyas (sense organs: ears, skin, eyes, tongue, nose) → 5 Karmendriyas (speech, hands, feet, etc.) → 5 Tanmatras (sound, touch, form, taste, smell) → 5 Bhutas (ether, air, fire, water, earth) = 23 elements total.</p>
+      <div class="fact-box">
+        <div class="fact-label">Liberation (Kaivalya)</div>
+        <p>When the conscious self realises through actual knowledge that it is separate from Prakriti and its manifestations, it stops feeling pleasure/pain — this is Kaivalya (Moksha) in Samkhya.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('yoga-darshana')">🧘 Yoga (sister school)</span>
+          <span class="cross-link-pill" onclick="openModal('panchalaksanas')">🌀 Sarga (Puranic creation)</span>
+          <span class="cross-link-pill" onclick="openModal('purushartha')">🎯 Moksha</span>
+        </div>
+      </div>`,
+  },
+  'yoga-darshana': {
+    icon: '🧘', title: 'Yoga Darśana — The 8-Limbed Path', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Founded by Rishi Patanjali (2nd century BCE)</h3>
+      <p>Yoga serves as the practical <em>methodology</em> to realise the difference between Purusa and Prakriti — it is Samkhya in practice.</p>
+      <h3>Ashtanga Yoga — The Eight Limbs</h3>
+      <ul>
+        <li><strong>1. Yama:</strong> Ethical restraints — Ahimsa, Satya, Asteya, Brahmacarya, Aparigraha (5 Mahavrata)</li>
+        <li><strong>2. Niyama:</strong> Personal observances — Sauca, Santosa, Tapas, Svadhyaya, Isvara-Pramidhana</li>
+        <li><strong>3. Asana:</strong> Meditative posture — firm, comfortable for the practitioner</li>
+        <li><strong>4. Pranayama:</strong> Breath control — breath controls the mind's activities</li>
+        <li><strong>5. Pratyahara:</strong> Withdrawing senses from their objects</li>
+        <li><strong>6. Dharana:</strong> Focusing the mind on a single object</li>
+        <li><strong>7. Dhyana:</strong> Continuous unbroken meditation on the object</li>
+        <li><strong>8. Samadhi:</strong> Complete absorption — cessation of mental activities — realisation of the Self</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Two Stages</div>
+        <p>Steps 1–5 are external (Bahiranga-prayoga) — purifying thoughts. Steps 6–8 are internal (Antaranga-prayoga) — the direct path to Samadhi.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('samkhya')">⚖️ Samkhya (theoretical basis)</span>
+          <span class="cross-link-pill" onclick="openModal('jaina')">☸️ Jaina Mahavrata (similar ethics)</span>
+        </div>
+      </div>`,
+  },
+  nyaya: {
+    icon: '🔍', title: 'Nyāya — The School of Logic', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Founded by Rishi Gautama</h3>
+      <p>Nyaya philosophy: liberation is attained by acquiring correct knowledge (truth). It starts with uncontradicted experience and builds toward liberation through valid cognition.</p>
+      <h3>Three Key Pillars</h3>
+      <ul>
+        <li><strong>Correct Knowledge:</strong> Intellect leads to final liberation — emphasises correct ways of knowing (Pramanas)</li>
+        <li><strong>Art of Debate:</strong> Nyaya elucidates rules for debate (dialectics), valid cognition, and reasonable conclusions</li>
+        <li><strong>Self-Realisation:</strong> Liberation from pain through correct knowledge of the self — detachment from worldly pleasures</li>
+      </ul>
+      <h3>Valid Sources of Knowledge (Pramanas)</h3>
+      <ul>
+        <li>Pratyaksha (direct perception)</li>
+        <li>Anumana (inference)</li>
+        <li>Upamana (comparison)</li>
+        <li>Sabda (verbal testimony)</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('vaisesika')">⚛️ Vaisesika (twin school)</span>
+          <span class="cross-link-pill" onclick="openModal('historicity')">🔎 IKS Historicity (Ch1)</span>
+        </div>
+      </div>`,
+  },
+  vaisesika: {
+    icon: '⚛️', title: 'Vaiśeṣika — The School of Atomism', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Founded by Rishi Kanada</h3>
+      <p>Vaisesika deals with knowable objects in reality, analysing experience to understand what actually exists. It emphasises the <em>diversity</em> of reality and unique attributes.</p>
+      <h3>Key Categories</h3>
+      <ul>
+        <li><strong>Samanya (Generality):</strong> Allows classification — grouping things by shared properties (e.g. "all these are cows")</li>
+        <li><strong>Vishesha (Particularity):</strong> Every entity is ultimately different from all others. This uniqueness, examined down to ultimate constituents, leads to Paramanus — atoms</li>
+        <li><strong>Paramanu (Atoms):</strong> Ultimate indivisible material units — ancient India's atomic theory</li>
+      </ul>
+      <h3>The Karma Cycle (Mimamsa Model)</h3>
+      <p>Self → engages in action → correct Vedic interpretation → Dharmic action → Swarga/Liberation. Wrong interpretation → Adharmic action → Cycle of birth and death.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('nyaya')">🔍 Nyaya (twin school)</span>
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Science in Puranas (Ch4)</span>
+        </div>
+      </div>`,
+  },
+  mimamsa: {
+    icon: '🔥', title: 'Mīmāṃsā — Reflection on Vedic Texts', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Purva Mīmāṃsā (Earlier Reflection)</h3>
+      <ul>
+        <li>Focuses on the Karma-kanda (ritual sections) of the Vedas — mainly Brahmana and Samhita sections</li>
+        <li>Core focus: Interpretation of Vedic rituals, importance of karma (action), performance of Yajna and duties</li>
+        <li>Main aim: Ascertain the meanings of the Vedas; emphasise karma and dharma leading to liberation</li>
+        <li>Provides philosophical justifications for observing Vedic rituals</li>
+      </ul>
+      <h3>Uttara Mīmāṃsā (Later Reflection = Vedanta)</h3>
+      <ul>
+        <li>Deals with the philosophical (Gnan-kanda) portion of the Vedas — mainly the Upanishads</li>
+        <li>Core focus: Nature of Brahman and Atman; knowledge (Jnana) as the path to liberation; Moksha</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Connection to Ch 2</div>
+        <p>Purva Mimamsa directly extends the Karma-kanda of the Vedas discussed in Ch 2. Uttara Mimamsa (Vedanta) extends the Upanishads — the philosophical pinnacle of the Vedic Corpus.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Four Divisions of Vedas (Ch2)</span>
+          <span class="cross-link-pill" onclick="openModal('vedanta')">✨ Vedanta (Uttara Mimamsa)</span>
+          <span class="cross-link-pill" onclick="openModal('vedic-life')">🏔️ Yajna tradition (Ch2)</span>
+        </div>
+      </div>`,
+  },
+  vedanta: {
+    icon: '✨', title: 'Vedānta — Three Schools of Brahman', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Common Foundation: Prasthana-traya</h3>
+      <p>All three Vedanta schools rely on three texts: Upanishads, Bhagavad Gita, and Brahma-sutras. They all see Brahman as the absolute — but differ on what that means:</p>
+      <h3>1. Advaita (Non-Dualism) — by Sankara (688–720 CE)</h3>
+      <ul>
+        <li>Brahman = Nirguna (attribute-less). The world is Maya (illusion)</li>
+        <li>Jiva and Brahman are one and the same — difference is only apparent</li>
+        <li>Liberation = recognising you are already Brahman. Path: Jnana-yoga, Karma-yoga</li>
+      </ul>
+      <h3>2. Vishishtadvaita (Qualified Non-Dualism) — by Ramanuja (1017–1137 CE)</h3>
+      <ul>
+        <li>Brahman = Saguna (with attributes) — personal God (Vishnu/Narayana)</li>
+        <li>Matter, Jiva, and Isvara are three entities forming an inseparable unity</li>
+        <li>Liberation = attaining the feet of the Lord through Bhakti</li>
+      </ul>
+      <h3>3. Dvaita (Dualism) — by Madhvacarya (1238–1317 CE)</h3>
+      <ul>
+        <li>Visnu is the supreme God. The world is real. God and Jivas are eternally different</li>
+        <li>Liberation through knowledge of Isvara's greatness and devotion (Bhakti-yoga, Grace)</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('mimamsa')">🔥 Mimamsa (Vedanta's precursor)</span>
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Upanishads (Ch2)</span>
+          <span class="cross-link-pill" onclick="openModal('bauddhа')">🪷 Buddhism vs Advaita</span>
+        </div>
+      </div>`,
+  },
+  jaina: {
+    icon: '☸️', title: 'Jaina Philosophy', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Foundation</h3>
+      <ul>
+        <li>24 Tirthankaras — Mahavira (599–527 BCE) is the most well known</li>
+        <li>The word "Jaina" comes from "Jina" — one who has conquered inner enemies (anger, greed, ego, attachment)</li>
+        <li>Does not acknowledge the authority of the Vedas</li>
+      </ul>
+      <h3>Jaina Ontology — 6 Fundamental Categories</h3>
+      <p>Soul (Jiva), Matter (Pudgala), Space (Akasa), Time (Kala), Motion (Dharma), Rest (Adharma)</p>
+      <h3>Syādvāda — Theory of Conditional Predication</h3>
+      <p>Knowledge is relative, not absolute. Any claim can be true from one perspective and false from another. Jaina school lists 7 truth-value possibilities — the most sophisticated ancient logic system.</p>
+      <h3>Karma in Jainism</h3>
+      <p>The birth-death cycle is caused by particles of matter (Pudgala) embedded in the Jiva. Passions attract karmic matter like water attracts dust to a wet cloth.</p>
+      <h3>Liberation (Three Gems)</h3>
+      <ul>
+        <li>Right Faith + Right Knowledge + Right Conduct</li>
+        <li>Ethical restraints: Ahimsa, Satya, Asteya, Aparigraha, Brahmacarya</li>
+        <li>Ascetic disciplines to calm passions and shed karmic matter</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('bauddhа')">🪷 Buddhism (similar era, different path)</span>
+          <span class="cross-link-pill" onclick="openModal('traditions')">☸️ Jain traditions (Ch1)</span>
+          <span class="cross-link-pill" onclick="openModal('largenum')">♾️ Jain large numbers (Ch6)</span>
+        </div>
+      </div>`,
+  },
+  'bauddhа': {
+    icon: '🪷', title: 'Bauddha (Buddhist) Philosophy', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Founded by Gautama Buddha (4th–5th century BCE)</h3>
+      <ul>
+        <li>"Budh" means "to awaken or to know"</li>
+        <li>Moved by the suffering of life, old age, and death — Buddha sought liberation</li>
+        <li>Two main forms: Mahayana (Northern) and Theravada (Southern)</li>
+      </ul>
+      <h3>Four Noble Truths (Arya Satya)</h3>
+      <ul>
+        <li><strong>1. Suffering (Dukkha):</strong> Birth, decay, illness, and death are suffering</li>
+        <li><strong>2. Cause (Samudaya):</strong> Thirst (tanha) for existence leads to rebirth and suffering</li>
+        <li><strong>3. Cessation (Nirodha):</strong> Cessation of thirst ends suffering</li>
+        <li><strong>4. Path (Magga):</strong> The Eightfold Path leads to liberation</li>
+      </ul>
+      <h3>The Eightfold Path</h3>
+      <p>Right View, Right Intention, Right Speech, Right Action, Right Livelihood, Right Effort, Right Mindfulness, Right Concentration</p>
+      <div class="fact-box">
+        <div class="fact-label">The Cycle of Suffering</div>
+        <p>Ignorance → impressions of previous birth → initial consciousness → mind and body → sense organs → contact → sense experience → thirst → clinging → tendency to be born → rebirth → old age and death → suffering → back to Ignorance.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('jaina')">☸️ Jainism (contemporary)</span>
+          <span class="cross-link-pill" onclick="openModal('numhist')">🔢 Buddha's Number Contest (Ch6)</span>
+          <span class="cross-link-pill" onclick="openModal('traditions')">☸️ Buddhist Contributions (Ch1)</span>
+        </div>
+      </div>`,
+  },
+  carvaka: {
+    icon: '🌍', title: 'Cārvāka — Radical Materialism', chapter: 'Chapter 3 · Philosophy',
+    content: `
+      <h3>Also Called Lokayata</h3>
+      <p>Carvaka is the materialist school — emphasising direct perception, worldly pleasure, and rational scepticism of all supernatural claims.</p>
+      <h3>Core Doctrines</h3>
+      <ul>
+        <li><strong>Materialism:</strong> Only material things known by the senses are real</li>
+        <li><strong>Pratyaksha only:</strong> Direct perception is the ONLY valid source of knowledge — inference and testimony are unreliable</li>
+        <li><strong>No Soul or Afterlife:</strong> Consciousness is an emergent property of matter; after death nothing remains</li>
+        <li><strong>World = 4 Elements:</strong> Earth, Water, Fire, Air — everything is composed of these</li>
+        <li><strong>Goal = Pleasure:</strong> Experience joy here and now — since there is no rebirth or afterlife</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Why It Matters</div>
+        <p>Carvaka represents India's ancient tradition of radical philosophical pluralism — the willingness to include even radical materialist/atheist positions within the civilisational intellectual conversation.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('schools-overview')">🌳 Non-Vedic Schools</span>
+          <span class="cross-link-pill" onclick="openModal('darsana-intro')">🌐 Philosophy Overview</span>
+        </div>
+      </div>`,
+  },
+
+  // ── CH5 MODALS ──
+  'panini-intro': {
+    icon: '🧙', title: 'Who Was Pāṇini?', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>The Father of Linguistics</h3>
+      <ul>
+        <li>Full name: <strong>Daksiputra Panini</strong> (mother's name was Daksi — per Patanjali's Mahabhasya)</li>
+        <li>Born in <strong>Shala Tula</strong> — a town on the Indus River, presently in Pakistan</li>
+        <li>Birth dates are debated: experts estimate 4th–7th century BCE</li>
+        <li>Called the "Father of Linguistics" and "World's First Geek"</li>
+      </ul>
+      <h3>What He Achieved</h3>
+      <p>Panini gave a complete scientific theory of the Sanskrit language. The word <em>Sanskrit</em> itself means "complete and perfect" — and Panini's grammar made it so.</p>
+      <h3>His Major Work</h3>
+      <p>The Ashtadhyayi — approximately 4000 sutras (rules) that together constitute a complete generative grammar of Sanskrit. His rules can generate an infinite number of valid sentences and words.</p>
+      <div class="fact-box">
+        <div class="fact-label">Cross-Chapter Connection</div>
+        <p>Panini's Vyakarana (grammar) is one of the six Vedangas discussed in Chapter 2. Shiksha (phonetics) is another Vedanga — both directly taught in this chapter.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('ashtadhyayi')">📐 Ashtadhyayi</span>
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Vedangas — Vyakarana & Shiksha (Ch2)</span>
+          <span class="cross-link-pill" onclick="openModal('pingala')">💻 Pingala's Binary (Ch6)</span>
+        </div>
+      </div>`,
+  },
+  ashtadhyayi: {
+    icon: '📐', title: 'Aṣṭādhyāyī — The Language Machine', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>What Is It?</h3>
+      <ul>
+        <li>Sanskrit treatise on grammar written 6th–5th century BCE</li>
+        <li>~4000 sutras (rules) across 8 chapters, each subdivided into 4 sections</li>
+        <li>Described 1700 basic elements: nouns, verbs, vowels, consonants, sentence construction</li>
+        <li>Used as an algorithm-like process to generate new words and sentences</li>
+      </ul>
+      <h3>How It Works</h3>
+      <p>The rules are applied to the right and left sides of existing words to create grammatically correct new words — with no exceptions. Two or more rules are often applied simultaneously.</p>
+      <h3>The Algorithm</h3>
+      <p>Base Word + Required Suffixes → Noun/Verb Form. Then: Noun Form + Suffix → Word. Verb Form + Suffix → Word. Prefixes (upa-sargas) can be added to verb forms to create further words.</p>
+      <div class="fact-box">
+        <div class="fact-label">Example: "Fruit of your actions"</div>
+        <p>1. Base: "Karma" | 2. Suffix: "Phala" (fruit) | 3. Panini's rule: add suffix to the right | 4. Result: "Karmaphala"</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('word-gen')">⚙️ Word Generation Scheme</span>
+          <span class="cross-link-pill" onclick="openModal('encodings')">🔤 Bhuta-Samkhya Encoding (Ch6)</span>
+          <span class="cross-link-pill" onclick="openModal('pingala')">💻 Pingala's Binary (Ch6)</span>
+        </div>
+      </div>`,
+  },
+  'word-gen': {
+    icon: '⚙️', title: 'How Panini\'s Language Machine Works', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>The Core Formula</h3>
+      <p>Base + Suffix = Word. This simple formula, governed by ~4000 precise rules, can generate any valid Sanskrit word.</p>
+      <h3>Verbal Roots (Dhatus)</h3>
+      <p>From the root "krt" (to do), one can generate: karoti (does), krtam (done), kartum (to do), kartavyam (must do), krtva (having done), karotu (please do), and more. Similarly for "path" (to read) and "gach" (to go).</p>
+      <h3>Prefixes (Upa-sargas)</h3>
+      <p>The root "krt" with prefixes creates entirely new meaning: adhi-karoti, apa-karoti, upa-karoti, nira-karoti, ut-karoti, pra-karoti, sams-karoti, anu-karoti, prati-karoti… each a distinct word with distinct meaning.</p>
+      <h3>Nominal Roots</h3>
+      <p>From "Rama" as nominal root: Ramah (singular), Ramau (dual), Ramah (plural) — across 7 cases × 3 numbers = 21 forms per noun.</p>
+      <div class="fact-box">
+        <div class="fact-label">Why This Is Revolutionary</div>
+        <p>Panini's grammar is a formal generative system — the same mathematical concept that underlies modern programming languages and computational linguistics. Chomsky acknowledged Panini as a precursor to formal grammar theory.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('ashtadhyayi')">📐 Ashtadhyayi overview</span>
+          <span class="cross-link-pill" onclick="openModal('encodings')">🔤 Sanskrit number encoding (Ch6)</span>
+        </div>
+      </div>`,
+  },
+  phonetics: {
+    icon: '🔊', title: 'Phonetics (Śikṣā) — The Science of Sound', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>What is Phonetics?</h3>
+      <p>Phonetics (Shiksha in Sanskrit) is the study of sounds in a language — how sounds are produced and perceived. It is vital to the Sanskrit/Vedic tradition because it is fundamentally oral.</p>
+      <h3>Places of Pronunciation</h3>
+      <ul>
+        <li><strong>Kantha (Throat):</strong> अ, क, ख, ग, घ, ङ, ह, visarga</li>
+        <li><strong>Talu (Palate):</strong> इ, च, छ, ज, झ, ञ, य, श</li>
+        <li><strong>Murdha (Upper Palate):</strong> ऋ, ट, ठ, ड, ढ, ण, र, ष</li>
+        <li><strong>Danta (Teeth):</strong> ऌ, त, थ, द, ध, न, ल, स</li>
+        <li><strong>Ostha (Lips):</strong> उ, प, फ, ब, भ, म</li>
+        <li><strong>Nasika (Nasal):</strong> ङ, ञ, ण, न, म</li>
+      </ul>
+      <h3>Articulatory Effort</h3>
+      <p>Vowels: classified as Short/Long/Elongated, Nasal/Non-nasal, Pitch (Udatta, Anudatta, Svarita). Consonants: Alpa-prana (mild breath) vs. Maha-prana (strong breath/aspirated).</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Shiksha Vedanga (Ch2)</span>
+          <span class="cross-link-pill" onclick="openModal('alphabet')">अ Sanskrit Alphabet</span>
+          <span class="cross-link-pill" onclick="openModal('pingala')">💻 Chandas Vedanga → Binary (Ch6)</span>
+        </div>
+      </div>`,
+  },
+  alphabet: {
+    icon: 'अ', title: 'Sanskrit Alphabet (Varṇamālā)', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>Varnamala — The Garland of Letters</h3>
+      <p>The Sanskrit alphabet is perfectly phonetically organised — unlike English, every symbol corresponds to exactly one sound.</p>
+      <h3>13 Vowels (Swaras)</h3>
+      <ul>
+        <li><strong>Short (Hrasva):</strong> अ (a), इ (i), उ (u), ऋ (ṛ), ऌ (ḷ)</li>
+        <li><strong>Long (Dirgha):</strong> आ (ā), ई (ī), ऊ (ū), ॠ (ṝ), ॡ (ḹ)</li>
+        <li><strong>Diphthongs:</strong> ए (e = अ+इ), ऐ (ai = अ+ए), ओ (o = अ+उ), औ (au = अ+ओ)</li>
+      </ul>
+      <h3>33 Consonants (Vyanjanas)</h3>
+      <ul>
+        <li><strong>Gutturals (Kanthya):</strong> क ख ग घ ङ — throat</li>
+        <li><strong>Palatals (Talavya):</strong> च छ ज झ ञ — palate</li>
+        <li><strong>Cerebrals (Murdhanya):</strong> ट ठ ड ढ ण — roof of mouth</li>
+        <li><strong>Dentals (Dantya):</strong> त थ द ध न — teeth</li>
+        <li><strong>Labials (Osthya):</strong> प फ ब भ म — lips</li>
+        <li><strong>Semi-vowels:</strong> य र ल व</li>
+        <li><strong>Sibilants:</strong> श ष स | <strong>Aspirate:</strong> ह</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('phonetics')">🔊 Phonetics</span>
+          <span class="cross-link-pill" onclick="openModal('nasal-sounds')">〰️ Nasal Sounds</span>
+          <span class="cross-link-pill" onclick="openModal('samaveda')">🎵 Samaveda — swara system (Ch2)</span>
+        </div>
+      </div>`,
+  },
+  'nasal-sounds': {
+    icon: '〰️', title: 'Nasal Sounds & Visarga in Sanskrit', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>Anusvara (ं)</h3>
+      <ul>
+        <li>A nasal sound that nasalizes the vowel preceding it</li>
+        <li>Often found in word-final positions or before certain consonants</li>
+        <li>Example: गंगा (Gangah) — the anusvara nasalizes the vowel आ</li>
+      </ul>
+      <h3>Anunasika (ँ)</h3>
+      <ul>
+        <li>Indicates a nasalized vowel sound throughout the vowel duration</li>
+        <li>Distinguished from anusvara in scope — the nasalization pervades the whole vowel</li>
+      </ul>
+      <h3>Visarga (ः)</h3>
+      <ul>
+        <li>A diacritical mark appearing as two dots following a vowel</li>
+        <li>Represents a slight aspiration or breathy sound — like a soft 'h'</li>
+        <li>Typically occurs at word-final position in classical and Vedic Sanskrit</li>
+        <li>Affects the quality of the preceding vowel and influences rhythm in chanting</li>
+        <li>Example: रामः (Rāmaḥ) — breathy after आ; सर्वः (Sarvaḥ) — breathy after अ; महर्षिः (Maharṣiḥ) — breathy after इ</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('alphabet')">अ Sanskrit Alphabet</span>
+          <span class="cross-link-pill" onclick="openModal('phonetics')">🔊 Phonetics overview</span>
+        </div>
+      </div>`,
+  },
+  'panini-legacy': {
+    icon: '🌟', title: 'Panini\'s Legacy & Modern Impact', chapter: 'Chapter 5 · Linguistics',
+    content: `
+      <h3>Impact on Sanskrit</h3>
+      <ul>
+        <li>Panini's rules became the constitutional law of Sanskrit — took centuries to fully establish</li>
+        <li>Covered both Vedic Sanskrit (existing) and later Classical Sanskrit</li>
+        <li>Played a critical role in the preservation of Sanskrit across millennia</li>
+        <li>Influenced the preservation of many modern Indian languages</li>
+      </ul>
+      <h3>Impact on Linguistics</h3>
+      <ul>
+        <li>Panini's analysis of sounds and their combinations laid the groundwork for modern phonetics and phonology</li>
+        <li>Provided the foundation for Sanskrit literature and philosophy</li>
+        <li>Western linguists, encountering Sanskrit in the 18th century, were astonished at its precision — it triggered the entire field of comparative linguistics</li>
+      </ul>
+      <h3>Connection to Computer Science</h3>
+      <p>Panini's grammar is a formal generative system — rules that generate valid outputs from inputs with no exceptions. This is precisely what Chomsky formalised in the 20th century as "generative grammar" and what programming language designers use today. The Ashtadhyayi is, in essence, the world's first algorithm.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('pingala')">💻 Pingala's Binary System (Ch6)</span>
+          <span class="cross-link-pill" onclick="openModal('spread')">🌍 How Indian knowledge spread (Ch6)</span>
+          <span class="cross-link-pill" onclick="openModal('importance')">🌟 IKS as Knowledge Power (Ch1)</span>
+        </div>
+      </div>`,
+  },
+  importance: {
+    icon: '🌟', title: 'Why Study IKS?', chapter: 'Chapter 1 · IKS Overview',
+    content: `
+      <h3>Four Pillars of Importance</h3>
+      <ul>
+        <li><strong>Identity:</strong> Millions of ancient palm manuscripts lie scattered across India gathering dust. Engaging with IKS revives a shared civilisational identity.</li>
+        <li><strong>Culture:</strong> If the underlying knowledge systems are withdrawn from society, cultural practices will be rudely jolted — causing distortions and discontinuities in societal progress.</li>
+        <li><strong>Received Wisdom:</strong> IKS is knowledge that emerged from deep experience, observation, experimentation and analysis — then validated and augmented by generations.</li>
+        <li><strong>Economic Value:</strong> The prevailing 'military power' is giving way to 'knowledge power'. Nations that demonstrate superiority of knowledge traditions will lead the world.</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">💡 Did you know?</div>
+        <p>The Brihadeshwara Temple (1010 CE) used 60,000 tons of granite and its 80-ton kumbham (top) casts no shadow at noon — an engineering feat unexplained by modern science.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('define')">📚 Defining IKS</span>
+          <span class="cross-link-pill" onclick="openModal('temple')">🏛️ Brihadeshwara Temple</span>
+          <span class="cross-link-pill" onclick="openModal('spread')">🌍 India's Global Impact</span>
+        </div>
+      </div>`,
+  },
+  define: {
+    icon: '📚', title: 'Defining Indian Knowledge System', chapter: 'Chapter 1 · IKS Overview',
+    content: `
+      <h3>What is IKS?</h3>
+      <p>IKS is the body of knowledge generated in India — validated through deep experiences, observation, experimentation, and analysis — and passed down through generations in various forms: oral, written, and demonstrated.</p>
+      <h3>The IKS Corpus</h3>
+      <ul>
+        <li>Sanatana Dharma literary works (Vedas, Upanishads, Puranas, Epics)</li>
+        <li>Basic & Applied Sciences (Mathematics, Astronomy, Plant Sciences)</li>
+        <li>Engineering & Technology (Metalworking, Shipbuilding, Town Planning)</li>
+        <li>Health, Wellness & Psychology (Charaka-samhita, Sushruta-samhita, Yoga)</li>
+        <li>Niti-Sastras (Pancatantra, Arthashastra)</li>
+        <li>Aesthetics & Performing Arts (Natyashastra by Bharata)</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">🔑 Key Concept</div>
+        <p>Caturdasa-Vidyasthana — the 14 branches of knowledge — includes 4 Vedas, 6 Vedangas, Mimansa, Nyaya, Puranas, and Dharmashastra. This is the classical organising framework of all IKS.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('classification')">🗂️ Classification Framework</span>
+          <span class="cross-link-pill" onclick="openModal('vedas-intro')">🔱 Introduction to Vedas</span>
+          <span class="cross-link-pill" onclick="openModal('niti')">⚖️ Niti-Sastras</span>
+        </div>
+      </div>`,
+  },
+  classification: {
+    icon: '🗂️', title: 'IKS Classification Framework', chapter: 'Chapter 1 · IKS Overview',
+    content: `
+      <h3>Caturdasa-Vidyasthana (14 Branches of Knowledge)</h3>
+      <ul>
+        <li>4 Vedas: Rigveda, Samaveda, Yajurveda, Atharvaveda</li>
+        <li>6 Vedangas: Shiksha, Kalpa, Vyakarana, Nirukta, Chandas, Jyotisha</li>
+        <li>Mimansa (Purva & Uttara)</li>
+        <li>Nyaya (Logic)</li>
+        <li>Puranas (Encyclopaedic texts)</li>
+        <li>Dharmashastra (Social law)</li>
+      </ul>
+      <h3>Other Dharmic Traditions</h3>
+      <ul>
+        <li>Buddhist literature (contributions dating to 500 BCE)</li>
+        <li>Jain philosophy and Agamas</li>
+      </ul>
+      <h3>Science & Applied Knowledge</h3>
+      <ul>
+        <li>Mathematics, Astronomy (Ganita, Jyotisha)</li>
+        <li>Medicine: Charaka-samhita, Sushruta-samhita, Astanga-hrdaya</li>
+        <li>Architecture: Vastu-vidya, Shilpashastra</li>
+        <li>Music: Gandharva Veda (Upaveda of Samaveda)</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Vedangas</span>
+          <span class="cross-link-pill" onclick="openModal('puranas')">📜 Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Number System</span>
+        </div>
+      </div>`,
+  },
+  temple: {
+    icon: '🏛️', title: 'Brihadeshwara Temple, Thanjavur', chapter: 'Chapter 1 · IKS In Action',
+    content: `
+      <div class="fact-box"><div class="fact-label">Built by</div><p>Raja Raja Chola I · Completed 1010 CE</p></div>
+      <h3>Engineering Feats</h3>
+      <ul>
+        <li>~60,000 tons of granite used — no nearby quarry source identified</li>
+        <li>One of the earliest granite temples in the world</li>
+        <li>Has one of the tallest Vimanam (temple towers)</li>
+        <li>Kumbham (top capstone) weighs 80 tons — how it was lifted remains debated</li>
+        <li>The temple casts <strong>no shadow at noon</strong> due to precise astronomical alignment</li>
+        <li>Contains a giant Nandi statue and 81 Bharatanatyam carvings</li>
+      </ul>
+      <h3>What This Tells Us About IKS</h3>
+      <p>The temple is not just religious architecture — it is a demonstration of advanced structural engineering, astronomy, mathematics, and aesthetics all converging. It is IKS in physical form.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Astronomy in Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Indian Mathematics</span>
+          <span class="cross-link-pill" onclick="openModal('importance')">🌟 Why IKS Matters</span>
+        </div>
+      </div>`,
+  },
+  traditions: {
+    icon: '☸️', title: 'Other Dharmic Traditions in IKS', chapter: 'Chapter 1 · IKS Overview',
+    content: `
+      <h3>Buddhist Contributions</h3>
+      <ul>
+        <li>Contributions dating back to 500 BCE</li>
+        <li>Buddhist literature covers logic, epistemology, medicine, and cosmology</li>
+        <li>Nalanda and Takshashila universities were centres of Buddhist learning covering all disciplines</li>
+      </ul>
+      <h3>Jain Contributions</h3>
+      <ul>
+        <li>Pārśvanātha (23rd Tirthankara) lived 872–772 BCE</li>
+        <li>Jain philosophy: ahimsa, aparigrahā, and precise mathematical cosmology</li>
+        <li>Jain texts contain extremely large number systems (comparable to modern notation)</li>
+        <li>Significant contributions to logic (Syad-vada — the theory of conditional predication)</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('largenum')">♾️ Large Numbers</span>
+          <span class="cross-link-pill" onclick="openModal('define')">📚 IKS Corpus</span>
+        </div>
+      </div>`,
+  },
+  historicity: {
+    icon: '🔎', title: 'Historicity of IKS', chapter: 'Chapter 1 · IKS Overview',
+    content: `
+      <h3>Common Myths vs. Facts</h3>
+      <ul>
+        <li><strong>Myth:</strong> IKS is only religious. <strong>Fact:</strong> It covers mathematics, medicine, engineering, linguistics, economics, and law.</li>
+        <li><strong>Myth:</strong> It was unscientific. <strong>Fact:</strong> Rigorous methods of pramana (valid knowledge) — pratyaksha (perception), anumana (inference), shabda (testimony) — governed epistemology.</li>
+        <li><strong>Myth:</strong> Nothing was written. <strong>Fact:</strong> Millions of palm manuscripts exist across India — many yet to be catalogued.</li>
+      </ul>
+      <h3>Continuity</h3>
+      <p>IKS is a living tradition. Yoga, Ayurveda, classical music, temple architecture, and oral Vedic chanting continue unbroken to the present day, making IKS unique among ancient knowledge systems.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('vedas-intro')">🔱 Vedas as Sruti</span>
+          <span class="cross-link-pill" onclick="openModal('numhist')">🔢 Mathematical Evidence</span>
+        </div>
+      </div>`,
+  },
+
+  // CH2
+  'vedas-intro': {
+    icon: '🔱', title: 'Introduction to the Vedas', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <h3>Origin & Nature</h3>
+      <ul>
+        <li>'Veda' derives from 'Vidhi' — knowledge</li>
+        <li>Also called <em>Sruti</em> (heard) — transmitted orally from guru to disciple</li>
+        <li><em>Apauruseya</em> — of non-human origin, revealed to Rishis through deep meditation</li>
+        <li>Vyasa organised the existing corpus into four Vedas to ensure uninterrupted transmission</li>
+      </ul>
+      <h3>Three Aspects</h3>
+      <ul>
+        <li><strong>Karma-kanda</strong> (rituals/action) → Pravritti Marga → explained by Purva Mimansa</li>
+        <li><strong>Gnan-kanda</strong> (knowledge) → Nivritti Marga → explained by Vedanta & Upanishads</li>
+        <li><strong>Upasana-kanda</strong> (devotion/worship) → connects both paths</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Trayi Vidya</div>
+        <p>Rigveda, Samaveda, and Yajurveda are collectively called 'Trayi Vidya' — the triple knowledge. Atharvaveda was added later as the fourth.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('rigveda')">📖 Rigveda</span>
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Four Divisions</span>
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Vedangas</span>
+          <span class="cross-link-pill" onclick="openModal('puranas')">📜 Puranas (companion texts)</span>
+        </div>
+      </div>`,
+  },
+  rigveda: {
+    icon: '📖', title: 'Rigveda — The Oldest Text', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <div class="fact-box"><div class="fact-label">Fast Facts</div>
+        <p>Composed ~1700 BCE · 1028 hymns (sūktas) · 10,552 verses · 10 books (Mandalas)</p>
+      </div>
+      <h3>Key Contents</h3>
+      <ul>
+        <li>About 1/3rd hymns dedicated to <strong>Indra</strong> (rain, thunder)</li>
+        <li>About 1/4th hymns dedicated to <strong>Agni</strong> (fire)</li>
+        <li><strong>Gayatri Mantra</strong> is in the 3rd Mandala</li>
+        <li>Mentions the sacred <strong>Saraswati River</strong></li>
+        <li>400 Rishis mentioned; over 25 were <strong>women rishis</strong> (e.g., Daksina Prajapatya)</li>
+        <li>Discusses the origin of the Universe</li>
+      </ul>
+      <h3>Word Frequencies</h3>
+      <ul>
+        <li>Om: 1028 times</li>
+        <li>Rta (cosmic order): 390 times</li>
+        <li>Jnana (knowledge): 27 times</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('samaveda')">🎵 Samaveda (borrows from Rig)</span>
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Divisions of Each Veda</span>
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Astronomy in Puranas</span>
+        </div>
+      </div>`,
+  },
+  yajurveda: {
+    icon: '🔥', title: 'Yajurveda — The Book of Rituals', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <h3>What is the Yajurveda?</h3>
+      <p>The practical manual for Yajna (ritual sacrifice) performance. It deals with the procedure — how altars should be built, what offerings are made, and how chants and movements must be executed.</p>
+      <h3>Two Main Branches</h3>
+      <ul>
+        <li><strong>Sukla (White) Yajurveda</strong> by Yajnavalkya — contains only Mantras</li>
+        <li><strong>Krishna (Black) Yajurveda</strong> by Vaisampayana — contains Mantras plus prose commentaries</li>
+      </ul>
+      <h3>Key Emphasis</h3>
+      <ul>
+        <li>Correct pronunciation and timing are paramount</li>
+        <li>Sequence of ritual actions is precisely defined</li>
+        <li>Details altar construction for different Yajnas</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('vedic-life')">🏔️ Vedic Life & Yajna</span>
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Four Divisions</span>
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Vedangas (Kalpa: ritual science)</span>
+        </div>
+      </div>`,
+  },
+  samaveda: {
+    icon: '🎵', title: 'Samaveda — The Book of Songs', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <div class="fact-box"><div class="fact-label">Key Fact</div>
+        <p>1875 verses — except 75, all are borrowed from Rigveda but rearranged for musical and liturgical use</p>
+      </div>
+      <h3>Significance</h3>
+      <ul>
+        <li>Known as the <em>Veda of Chants</em> or the <em>Book of Songs</em></li>
+        <li>Considered the <strong>foundation of Indian classical music</strong></li>
+        <li>Developed the concept of <strong>swara</strong> (musical notes: Sa, Re, Ga…)</li>
+        <li>Taught by Jaimini — one of Vyasa's primary disciples</li>
+      </ul>
+      <h3>Contemporary Relevance</h3>
+      <ul>
+        <li>Basis for Dhrupad, Samgīta, and classical ragas</li>
+        <li>Still recited in traditional Śrauta rituals</li>
+        <li>Studied for linguistic, musical, and spiritual value</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('rigveda')">📖 Rigveda (source of verses)</span>
+          <span class="cross-link-pill" onclick="openModal('classification')">🗂️ Gandharva Veda (Music Upaveda)</span>
+        </div>
+      </div>`,
+  },
+  atharvaveda: {
+    icon: '⚕️', title: 'Atharvaveda — Magic, Healing & Society', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <div class="fact-box"><div class="fact-label">Key Numbers</div>
+        <p>20 Kandas · 736 hymns · 6077 verses · 2 surviving recensions (Pippalada & Saunakiya)</p>
+      </div>
+      <h3>Why It's Different</h3>
+      <ul>
+        <li>Entirely different from the other three Vedas</li>
+        <li>Named after sage <strong>Atharvan</strong>, associated with healing</li>
+        <li>Called the "Veda of magical formulas" — but covers much more</li>
+      </ul>
+      <h3>Topics Covered</h3>
+      <ul>
+        <li>Disease and their care (early medicine)</li>
+        <li>Health, healing, and societal psychology</li>
+        <li>Domestic life, village customs, philosophical elements</li>
+        <li>Prayers for prosperity covering all living organisms</li>
+      </ul>
+      <h3>Three Primary Upanishads Within</h3>
+      <ul>
+        <li>Mundaka Upanishad</li>
+        <li>Mandukya Upanishad</li>
+        <li>Prashna Upanishad</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Four Divisions (Upanishads)</span>
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Medicine in Puranas</span>
+        </div>
+      </div>`,
+  },
+  fourdivisions: {
+    icon: '📑', title: 'Four Divisions of Each Veda', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <h3>The Complete Path: Outer to Inner</h3>
+      <ul>
+        <li><strong>Samhitas:</strong> Mantras in metrical form. Hymns, prayers, and praise of devatas. The core text of each Veda.</li>
+        <li><strong>Brahmanas:</strong> Technical material for ritual and rites. Describes altar preparation for Yajnas, rites of passage (birth, marriage, death).</li>
+        <li><strong>Aranyakas:</strong> "Forest texts" — composed by forest-dwelling sages. Bridge between external ritual and internal contemplation.</li>
+        <li><strong>Upanishads:</strong> Philosophical pinnacle — Vedanta ("end of the Veda"). Explores Brahman, Atman, consciousness. About 108 Upanishads in total.</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Sanskrit Verse</div>
+        <p>आत्मानं रथिनं विद्धि शरीरं रथमेव च — Know the Self as the rider of the chariot, and the body as the chariot (Katha Upanishad)</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('rigveda')">📖 Rigveda Samhita</span>
+          <span class="cross-link-pill" onclick="openModal('atharvaveda')">⚕️ Atharvaveda Upanishads</span>
+          <span class="cross-link-pill" onclick="openModal('vedas-intro')">🔱 Karma & Gnan Kanda</span>
+        </div>
+      </div>`,
+  },
+  vedangas: {
+    icon: '🌿', title: 'Vedangas — Six Limbs of the Veda', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <h3>The Six Vedangas</h3>
+      <ul>
+        <li><strong>Shiksha (Phonetics):</strong> Correct pronunciation — essential because Vedas are oral. Rules for sound production and preservation.</li>
+        <li><strong>Kalpa (Ritual Science):</strong> Rules governing rituals, Yajna procedures, daily duties, and rites of passage.</li>
+        <li><strong>Vyakarana (Grammar):</strong> Panini's Ashtadhyayi — 3,976 sutras that generate all Sanskrit words through precise rules. A computational language machine.</li>
+        <li><strong>Nirukta (Etymology):</strong> Explanation of obscure Vedic words and their meanings.</li>
+        <li><strong>Chandas (Metres):</strong> Science of poetic metres. Pingala's work here led to the binary number system.</li>
+        <li><strong>Jyotisha (Astronomy/Astrology):</strong> Astronomical calculations for scheduling rituals — direct precursor to sophisticated Indian astronomy.</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Cross-Chapter Connection</div>
+        <p>Pingala's work on Chandas (metres) led to binary number representation — directly connecting Ch 2's Vedangas to Ch 6's Number System!</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('pingala')">💻 Pingala's Binary System</span>
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Astronomy in Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('encodings')">🔤 Sanskrit Number Encoding</span>
+        </div>
+      </div>`,
+  },
+  'vedic-life': {
+    icon: '🏔️', title: 'Vedic Life & the Yajna Tradition', chapter: 'Chapter 2 · The Vedic Corpus',
+    content: `
+      <h3>Yajna at the Centre</h3>
+      <p>Vedic people lived a life in which Yajna (sacred fire ritual) was central to their life practices. Yajna connected individual, community, and cosmos.</p>
+      <h3>Archaeological Evidence: Syena-Citi, Purola</h3>
+      <ul>
+        <li>Location: Uttarakhand, India</li>
+        <li>Dating: 1st century BCE – 2nd century CE</li>
+        <li>A falcon-shaped (Syena) fire altar — built from precisely arranged bricks</li>
+        <li>Pottery remains show continuity of Vedic practice</li>
+      </ul>
+      <h3>The Upaveda System</h3>
+      <ul>
+        <li>Rigveda → Ayurveda (medicine)</li>
+        <li>Samaveda → Gandharva Veda (music)</li>
+        <li>Yajurveda → Dhanur Veda (archery/warfare)</li>
+        <li>Atharvaveda → Arthashastra (economics/statecraft)</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('yajurveda')">🔥 Yajurveda (ritual manual)</span>
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Kalpa (ritual science)</span>
+          <span class="cross-link-pill" onclick="openModal('niti')">⚖️ Arthashastra connection</span>
+        </div>
+      </div>`,
+  },
+
+  // CH4
+  panchatantra: {
+    icon: '🦊', title: 'Panchatantra — Statecraft through Stories', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>The Origin Story</h3>
+      <p>King Amarasakti had three sons who were uninterested in learning. He engaged teacher <strong>Vishnu Sarman</strong> to educate them. Vishnu Sarman, finding the princes uninterested in studying Shastras, invented a unique method — teaching through animal stories.</p>
+      <h3>Structure: Five Tantras</h3>
+      <ul>
+        <li><strong>Tantra 1 — Mitra-bheda:</strong> Loss of friends (governance and alliances)</li>
+        <li><strong>Tantra 2 — Mitra-samprapti:</strong> Gaining friends</li>
+        <li><strong>Tantra 3 — Kakolukiyam:</strong> War and peace (crows vs. owls)</li>
+        <li><strong>Tantra 4 — Labdhapranasam:</strong> Loss of gains</li>
+        <li><strong>Tantra 5 — Apariksitakarakam:</strong> Rash action</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Global Impact</div>
+        <p>Panchatantra is translated into 50+ languages and is considered the world's most widely translated non-religious book. Its stories reached Persia, Arabia (as Kalila wa Dimna), and eventually Europe's Aesop's Fables tradition.</p>
+      </div>
+      <h3>Why It's Important for IKS</h3>
+      <p>It is classified as a Niti-Sastra. Its method of complex statecraft in relatable stories is the ancient ancestor of today's business school case studies and modern storytelling pedagogy.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('niti')">⚖️ Niti-Sastras</span>
+          <span class="cross-link-pill" onclick="openModal('epics')">⚔️ The Two Epics</span>
+          <span class="cross-link-pill" onclick="openModal('purushartha')">🎯 Dharma & Artha</span>
+        </div>
+      </div>`,
+  },
+  puranas: {
+    icon: '📜', title: 'Puranas — Encyclopaedic Works', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>What are the Puranas?</h3>
+      <p>Companion texts to the Vedas — narrative works that help understand and interpret the Vedic ethos, philosophy, and religion for the masses through stories, 'Hari Katha' tradition.</p>
+      <h3>Three Categories</h3>
+      <ul>
+        <li><strong>Maha-puranas (18):</strong> ~4,00,000 verses total. Each focuses on one deity of the trinity (Brahma, Vishnu, Shiva). E.g., Bhagavata-purana → Vishnu; Linga-purana → Shiva.</li>
+        <li><strong>Upa-puranas (~18 prominent):</strong> Similar but smaller. About 100 can be enumerated from various sources.</li>
+        <li><strong>Sthala-puranas:</strong> Focused on specific sacred geographical places — usually a famous temple.</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Scope</div>
+        <p>Puranas cover: creation cosmology, dynasties, genealogies, rituals, devotion, yoga, medicine, music, grammar, poetics, astronomy, astrology, architecture, sculpture, polity — a true encyclopaedia.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('panchalaksanas')">🌀 Panchalaksanas (5 characteristics)</span>
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Science in Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('sthala')">🛕 Sthala-Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Number System in Puranas</span>
+        </div>
+      </div>`,
+  },
+  panchalaksanas: {
+    icon: '🌀', title: 'Pañcalakṣaṇas — Five Characteristics of Puranas', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>The Five Defining Characteristics</h3>
+      <ul>
+        <li><strong>Sarga (Creation):</strong> Bhagavata describes: from the agitation of original modes within unmanifest material nature, the mahat-tattva arises → then false ego (in three aspects) → subtle forms of perception, senses, and gross sense objects → this generation is called creation.</li>
+        <li><strong>Prati-sarga (Re-creation):</strong> Creation after creation — continued creation of primitive matter. As a seed produces more seeds, material desires in the performer produce moving and non-moving life forms.</li>
+        <li><strong>Vamsa (Dynasties):</strong> Bhagavata-purana defines Vamsa as "the present, past, and future lineage of kings created by the Brahman." A historical record of royal lineages.</li>
+        <li><strong>Manvantara (Time cycles):</strong> Time spans of different Manus — crucial for understanding cosmic human history. Activities and people (kings, Rishis) of each Manu's era are detailed.</li>
+        <li><strong>Vamsanucarita (Lineage stories):</strong> Stories of Rishis and kings born within those dynasties — biographies and narratives of specific notable figures.</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('puranas')">📜 Puranas Overview</span>
+          <span class="cross-link-pill" onclick="openModal('puranas-science')">🔭 Scientific Content</span>
+        </div>
+      </div>`,
+  },
+  'puranas-science': {
+    icon: '🔭', title: 'Science in the Puranas', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>Astronomy</h3>
+      <ul>
+        <li>Brahmanda Purana (Chapters 21-24): Solar months, solar year, rtus, daksinayana and uttarayana, equinoxes, 12 solar months, intercalary months</li>
+        <li>Matsya-purana (Chapters 124-128), Vishnu-purana (2.08-2.12), Vayu-purana (1.50-1.53)</li>
+        <li>Pre-telescopic discussions on stellar regions, sizes of planets, movement of Sun and Moon</li>
+        <li><em>Note: Some ideas on distances/dimensions are now known to be inaccurate due to advances in modern astronomy</em></li>
+      </ul>
+      <h3>Plant Science & Medicine</h3>
+      <ul>
+        <li>Matsya-purana: 75 plants identified with medicinal value (mahausadha)</li>
+        <li>Agni-purana: 36 plants (haritaki, nimba, aksa, bald) used in combinations for diseases</li>
+        <li>Agni-purana: Mental disorder treatment with plants like hirigu, suvarcala, and vyosa</li>
+        <li>Brahmavaivarta-purana: Balanced diet of staple food, vegetables, and fruits</li>
+      </ul>
+      <h3>Foetal Development</h3>
+      <p>Puranas describe stages of childbirth from the embryo — an early understanding of developmental biology embedded within the creation narrative.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Number System in Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Jyotisha Vedanga</span>
+          <span class="cross-link-pill" onclick="openModal('temple')">🏛️ IKS Applied Science</span>
+        </div>
+      </div>`,
+  },
+  epics: {
+    icon: '⚔️', title: 'The Two Great Epics', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>Ramayana</h3>
+      <ul>
+        <li>24,000 verses by Valmiki</li>
+        <li>Focuses on the ideal man (Rama as Maryada Purushottama) and ideal governance</li>
+        <li>Approach: Dharma through personal example, ideal relationships, and moral absolutism</li>
+        <li>Seven Kandas — from Bala Kanda to Uttara Kanda</li>
+      </ul>
+      <h3>Mahabharata</h3>
+      <ul>
+        <li>~1,00,000 verses — the longest epic ever written</li>
+        <li>Includes the Bhagavad Gita (18 chapters, 700 verses)</li>
+        <li>Approach: Dharma in complex, ambiguous situations — Rajadharma at its most nuanced</li>
+        <li>Contains Vidura-niti, Shanti-parva on governance, and encyclopaedic knowledge</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Contrasting Approaches</div>
+        <p>Ramayana: Dharma as ideal, absolute, and exemplary. Mahabharata: Dharma as contextual, situational, and debated. Together they provide a complete picture of ethical thought.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('niti')">⚖️ Vidura-niti</span>
+          <span class="cross-link-pill" onclick="openModal('purushartha')">🎯 Purusharthas</span>
+          <span class="cross-link-pill" onclick="openModal('panchatantra')">🦊 Panchatantra (Niti)</span>
+        </div>
+      </div>`,
+  },
+  niti: {
+    icon: '⚖️', title: 'Niti-Sastras & Subhasitas', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>What are Niti-Sastras?</h3>
+      <p>Niti = ethics / wise conduct / polity. Niti-Sastras are texts that codify the rules of wise and ethical behaviour for individuals and rulers. They include both Samanya-niti (general ethics) and Raj-niti (political ethics).</p>
+      <h3>Major Niti-Sastras</h3>
+      <ul>
+        <li><strong>Pancatantra</strong> by Vishnu Sharma (Samanya-niti)</li>
+        <li><strong>Chanakya-niti</strong> by Chanakya — concise verses on practical statecraft</li>
+        <li><strong>Vidura-niti</strong> (from Mahabharata): Qualities of a wise person detailed in Chapter 1, verses 20-34</li>
+        <li><strong>Arthashastra</strong> by Kautilya — comprehensive treatise on economics and governance</li>
+        <li><strong>Niti-sara</strong> by Kamandaka, <strong>Manu-smriti</strong> (public administration)</li>
+      </ul>
+      <h3>Subhasitas</h3>
+      <p>Subhasita = "well-spoken." These are individual wisdom sayings — pithy, memorable Sanskrit verses that encapsulate moral, practical, and philosophical insights. They served as a popular method of ethical education across society.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('panchatantra')">🦊 Panchatantra</span>
+          <span class="cross-link-pill" onclick="openModal('epics')">⚔️ Mahabharata (Vidura-niti)</span>
+          <span class="cross-link-pill" onclick="openModal('purushartha')">🎯 Dharma & Artha</span>
+        </div>
+      </div>`,
+  },
+  sthala: {
+    icon: '🛕', title: 'Sthala-Puranas — Sacred Geographies', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>What are Sthala-Puranas?</h3>
+      <p>Sacred works that connect land to the Divine — each focused on a specific geographical place (usually a famous temple city) and its presiding deity. Most are in Sanskrit; many regional language versions exist.</p>
+      <h3>Famous Sthala-Puranas</h3>
+      <ul>
+        <li><strong>Mumbadevi Mahatmya:</strong> Legend of Goddess Mumbadevi — guardian deity of Mumbai</li>
+        <li><strong>Kanda Puranam:</strong> Lord Murugan, especially Kanchipuram and Tamil shrines</li>
+        <li><strong>Dharmaranya Purana:</strong> Sacred region of Dharmaranya in Gujarat</li>
+        <li><strong>Vedaranya Mahatmyam:</strong> Vedaranyam, Tamil Nadu, where the Vedas are said to have worshipped Shiva</li>
+        <li><strong>Kanyakumari Ksetra Mahatmya:</strong> Penance of Goddess Kanyakumari at the southern tip of India</li>
+        <li><strong>Sarasvati Purana:</strong> Sacred Sarasvati River and associated sites in Gujarat</li>
+        <li><strong>Kumbhakonam Legends:</strong> "Nose of Brahma's pot" falling at Kumbhakonam — a primary pilgrimage site</li>
+      </ul>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('puranas')">📜 Maha-Puranas</span>
+          <span class="cross-link-pill" onclick="openModal('temple')">🏛️ Brihadeshwara Temple</span>
+        </div>
+      </div>`,
+  },
+  purushartha: {
+    icon: '🎯', title: 'Four Goals of Life (Puruṣārthas)', chapter: 'Chapter 4 · Wisdom Through the Ages',
+    content: `
+      <h3>The Complete Framework for Human Life</h3>
+      <ul>
+        <li><strong>Dharma — Righteous Living:</strong> The foundation. Living according to one's duty, role, and moral obligations. Guides the pursuit of all other goals.</li>
+        <li><strong>Artha — Wealth & Politics:</strong> Legitimate pursuit of material prosperity, economic security, and political power. Kautilya's Arthashastra is dedicated entirely to this.</li>
+        <li><strong>Kama — Desires & Pleasures:</strong> Legitimate pursuit of love, beauty, pleasure, and aesthetic experience. Includes the Kamasutra and performing arts.</li>
+        <li><strong>Moksha — Liberation:</strong> The ultimate goal — freedom from the cycle of birth and death (samsara). Achieved through Vedanta, Yoga, and devotion.</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Why This is Genius</div>
+        <p>Unlike traditions that reject worldly life, IKS embraces ALL four dimensions. Dharma governs Artha and Kama; all three ultimately lead toward Moksha. It is a complete, non-dualistic framework for human flourishing.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('niti')">⚖️ Niti-Sastras (Dharma/Artha)</span>
+          <span class="cross-link-pill" onclick="openModal('epics')">⚔️ Epics (Dharma in action)</span>
+          <span class="cross-link-pill" onclick="openModal('fourdivisions')">📑 Upanishads (Moksha)</span>
+        </div>
+      </div>`,
+  },
+
+  // CH6
+  numhist: {
+    icon: '🔢', title: 'Historical Evidence of Indian Numbers', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>Testimony from Scholars</h3>
+      <ul>
+        <li><strong>Laplace:</strong> Praised the ingenious method of expressing every possible number using ten symbols — emerging from India</li>
+        <li><strong>Al-Biruni:</strong> Wrote that Indians used different letter types in different regions — showing the early prevalence of numbers</li>
+        <li><strong>Georges Ifrah:</strong> Presented European and Arabic evidence confirming Indian mathematical primacy</li>
+        <li><strong>Severus Sebokht (7th c.):</strong> Already mentioned the Indian decimal system before Al-Khwarizmi</li>
+      </ul>
+      <h3>Archaeological Evidence</h3>
+      <ul>
+        <li><strong>Gwalior Temple Inscription (9th c. CE):</strong> Oldest recorded example of zero</li>
+        <li><strong>Kalibangan (Indus-Sarasvati Civilization):</strong> Street widths of 1.8m, 3.6m, 5.4m, 7.2m — built in ratios of 1:2:3:4 dhanus. Precise standardised measurement.</li>
+      </ul>
+      <h3>Buddha's Number Contest</h3>
+      <p>The Lalitavistara (a Buddhist text from ~2500 years ago) narrates Siddhartha naming numbers from 10⁷ to 10⁵³ — with each level given a unique name. He then said eight more counting systems beyond that exist.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('zero')">0️⃣ Zero (Shunya)</span>
+          <span class="cross-link-pill" onclick="openModal('largenum')">♾️ Large Numbers</span>
+          <span class="cross-link-pill" onclick="openModal('spread')">🌍 How It Spread</span>
+        </div>
+      </div>`,
+  },
+  zero: {
+    icon: '0️⃣', title: 'The Concept of Zero (Śūnya)', chapter: 'Chapter 6 · Number System',
+    content: `
+      <div class="fact-box"><div class="fact-label">Timeline</div>
+        <p>Developed 500–300 BCE → Fully formalised by 600 CE → Brahmagupta's rules: 628 CE → Reached Arab world: 8th century → Europe: after 11th century CE</p>
+      </div>
+      <h3>What Zero Did</h3>
+      <ul>
+        <li>First used as a <strong>placeholder</strong> in the place-value system (e.g., distinguishing 10 from 100)</li>
+        <li>Brahmagupta (628 CE) elevated it from a placeholder to a <strong>numeral with full arithmetic properties</strong></li>
+        <li>Defined: n + 0 = n, n × 0 = 0, n − 0 = n</li>
+        <li>Became the foundation for algebra and advanced mathematics</li>
+      </ul>
+      <h3>Sanskrit Name: Śūnya</h3>
+      <p>Śūnya also means 'empty' or 'void' — connected to the Buddhist philosophical concept of śūnyatā (emptiness). A profound philosophical and mathematical concept sharing the same word.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Place Value System</span>
+          <span class="cross-link-pill" onclick="openModal('largenum')">♾️ Large Numbers</span>
+          <span class="cross-link-pill" onclick="openModal('spread')">🌍 Al-Khwarizmi & Spread</span>
+          <span class="cross-link-pill" onclick="openModal('traditions')">☸️ Buddhist Philosophy (śūnyatā)</span>
+        </div>
+      </div>`,
+  },
+  placevalue: {
+    icon: '📊', title: 'Place Value & the Decimal System', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>The Revolution of Position</h3>
+      <p>Every digit gains value based on its <em>position</em> in a number. The digit 5 in 500 is worth 100 times more than the 5 in 5. This seemingly simple idea is the foundation of all modern arithmetic, algebra, and computing.</p>
+      <h3>Evidence from Ancient Texts</h3>
+      <ul>
+        <li><strong>Agni Purana:</strong> "Value of each place is 10 times the value of the previous place"</li>
+        <li><strong>Vayu Purana:</strong> "Places increase in multiples of ten sequentially; the 18th place is called Parārdha"</li>
+        <li><strong>Bhaskaracarya's Lilavati:</strong> States that ancestors had already developed a place-value system in multiples of ten — this was the Decimal System</li>
+      </ul>
+      <h3>Two Encoding Systems</h3>
+      <ul>
+        <li><strong>Bhuta-Samkhya System:</strong> Expresses digits 0–9 using representative words (e.g., 'moon' = 1, 'eyes' = 2, 'fire' = 3)</li>
+        <li><strong>Katapayadi System:</strong> Encodes numbers in Sanskrit consonants — used in astronomical and musical texts</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Impact</div>
+        <p>The rest of the world adopted the decimal place-value notation only after the 11th century CE — more than a millennium after India had formalised it.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('zero')">0️⃣ Zero as Placeholder</span>
+          <span class="cross-link-pill" onclick="openModal('encodings')">🔤 Bhuta-Samkhya & Katapayadi</span>
+          <span class="cross-link-pill" onclick="openModal('roman')">🏛️ Why Roman System Failed</span>
+        </div>
+      </div>`,
+  },
+  largenum: {
+    icon: '♾️', title: 'Large Number Names in Ancient India', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>The Naming System</h3>
+      <ul>
+        <li>Unique names for 0–9: eka, dve, trini, catvari, panca, sat, sapta, asta, nava</li>
+        <li>Numbers 11–99 follow an additive principle (e.g., 45 = panca + catvariṃśat)</li>
+        <li>Higher powers of 10 use a multiplicative principle</li>
+        <li>Examples: 8000 = asta-sahasram; 70,000 = sapta-ayuta</li>
+      </ul>
+      <h3>Scale of Large Numbers</h3>
+      <ul>
+        <li>10⁷ = koṭi</li>
+        <li>10⁵³ = tallakṣaṇa (named by Siddhartha in the Buddha story)</li>
+        <li>Eight more counting systems beyond tallakṣaṇa were described</li>
+      </ul>
+      <h3>Upanishadic References</h3>
+      <p>The Chandogya Upanishad and Taittiriya Upanishad contain references to extremely large numbers — showing that the scale of mathematical thinking was embedded in philosophical-spiritual texts.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('numhist')">🔢 Buddha's Number Story</span>
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Place Value System</span>
+          <span class="cross-link-pill" onclick="openModal('traditions')">☸️ Jain Large Numbers too</span>
+        </div>
+      </div>`,
+  },
+  pingala: {
+    icon: '💻', title: 'Pingala & the Binary System', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>Who was Pingala?</h3>
+      <p>Pingala was an ancient Indian mathematician and musicologist (c. 3rd-2nd century BCE) who wrote the <em>Chandas-sutra</em> — a treatise on Sanskrit poetic metres (prosody).</p>
+      <h3>The Binary Discovery</h3>
+      <ul>
+        <li>In analysing Sanskrit metres, Pingala needed to describe patterns of long (guru) and short (laghu) syllables</li>
+        <li>He used a binary-like notation: laghu (L) = 0, guru (G) = 1</li>
+        <li>He described how all possible metrical patterns could be represented using sequences of these two elements</li>
+        <li>This is the <strong>earliest known precursor to the binary number system</strong> — predating Leibniz by nearly 2000 years</li>
+      </ul>
+      <div class="fact-box">
+        <div class="fact-label">Cross-Chapter Connection 🔗</div>
+        <p>Pingala's work emerges directly from the Vedanga of Chandas (metres) described in Chapter 2. The study of Sanskrit poetry (Ch 2) led directly to the invention of binary logic (Ch 6) — an unexpected but beautiful connection.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Chandas Vedanga</span>
+          <span class="cross-link-pill" onclick="openModal('encodings')">🔤 Other Encoding Systems</span>
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Decimal System</span>
+        </div>
+      </div>`,
+  },
+  encodings: {
+    icon: '🔤', title: 'Bhūta-Saṅkhyā & Kaṭapayādi Systems', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>Bhūta-Saṅkhyā System</h3>
+      <p>A structured approach to express digits 0–9 using words representing natural entities. For example:</p>
+      <ul>
+        <li>0 = Śūnya (void) or Ākāśa (sky)</li>
+        <li>1 = Candra (moon) — only 1 moon</li>
+        <li>2 = Netra (eyes) — we have 2</li>
+        <li>3 = Agni (the 3 sacred fires)</li>
+        <li>4 = Veda (the 4 Vedas)</li>
+        <li>5 = Bāṇa (5 arrows of Kama) or Pañcabhūta (5 elements)</li>
+      </ul>
+      <h3>Kaṭapayādi System</h3>
+      <p>A system where Sanskrit consonants represent specific digits (0–9). Used extensively in Kerala mathematics, astronomical tables, and music compositions. Composers embedded numerical calculations within song lyrics using this system — a form of steganography.</p>
+      <div class="fact-box">
+        <div class="fact-label">Application</div>
+        <p>The value of π (pi) was encoded in a famous verse by Mādhava of Saṅgamagrāma using the Katapayadi system — allowing extremely precise values to be memorised in poetic form.</p>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Decimal System</span>
+          <span class="cross-link-pill" onclick="openModal('pingala')">💻 Pingala's Binary</span>
+          <span class="cross-link-pill" onclick="openModal('vedangas')">🌿 Sanskrit Grammar (enables encoding)</span>
+        </div>
+      </div>`,
+  },
+  roman: {
+    icon: '🏛️', title: 'Roman Numerals vs. Hindu-Arabic System', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>Limitations of Roman Numerals</h3>
+      <ul>
+        <li><strong>No zero:</strong> Cannot represent absence of quantity — makes algebra impossible</li>
+        <li><strong>No fractions:</strong> Cannot represent decimal values systematically</li>
+        <li><strong>Inconsistent symbol count:</strong> Three-digit numbers can have very different numbers of symbols (III = 3 symbols, VIII = 4)</li>
+        <li><strong>Large numbers impractical:</strong> Very large numbers require repeating the same symbol many times</li>
+        <li><strong>Arithmetic is extremely difficult:</strong> Try multiplying MCMXCIX × XLVII in Roman numerals!</li>
+        <li><strong>Not suitable for science:</strong> The system blocks complex mathematical work</li>
+      </ul>
+      <h3>Why the Decimal System Won</h3>
+      <p>Ten symbols (0–9) + place value = any number expressible. Addition, subtraction, multiplication, division — all become mechanical, learnable algorithms. This is why merchants, scientists, and eventually all of humanity adopted it.</p>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('zero')">0️⃣ Importance of Zero</span>
+          <span class="cross-link-pill" onclick="openModal('placevalue')">📊 Place Value</span>
+          <span class="cross-link-pill" onclick="openModal('spread')">🌍 How It Reached Europe</span>
+        </div>
+      </div>`,
+  },
+  spread: {
+    icon: '🌍', title: 'How Indian Mathematics Conquered the World', chapter: 'Chapter 6 · Number System',
+    content: `
+      <h3>The Journey: India → World</h3>
+      <div class="timeline" style="padding:10px 0">
+        <div class="timeline-item"><div class="timeline-dot" style="background:#fff7e6">🇮🇳</div><div class="timeline-content"><h4>7th Century CE: China</h4><p>Indian mathematics and astronomy translated and used in China. Indian astronomers worked at the Chinese imperial observatory. Indian calendar influenced Chinese calendar systems.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:#fff7e6">🌙</div><div class="timeline-content"><h4>7th Century CE: Syria</h4><p>Scholar Severus Sebokht mentioned the Indian decimal system — one of the first Western references.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:#fff7e6">📜</div><div class="timeline-content"><h4>8th Century CE: Abbasid Caliphate</h4><p>Indian numerals reached the court of Caliph Al-Mansur. Indian mathematical texts translated into Arabic.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:#fff7e6">📐</div><div class="timeline-content"><h4>820 CE: Al-Khwarizmi</h4><p>Wrote a book explaining arithmetic operations using the Indian number system. His name became 'algorithm'; his other book gave us 'algebra'.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:#fff7e6">🚢</div><div class="timeline-content"><h4>~1200 CE: Fibonacci</h4><p>Leonardo Fibonacci learned the Indian numeral system during travels to the Arab world and promoted it in Europe through his Liber Abaci.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot" style="background:#fff7e6">💰</div><div class="timeline-content"><h4>After 13th Century: European Adoption</h4><p>Slow at first due to Roman numeral habit, but merchants and bankers adopted it for calculations — commerce drove the revolution.</p></div></div>
+      </div>
+      <div class="cross-links">
+        <div class="cross-links-label">Related Topics</div>
+        <div class="cross-links-list">
+          <span class="cross-link-pill" onclick="openModal('zero')">0️⃣ Zero's Role</span>
+          <span class="cross-link-pill" onclick="openModal('numhist')">🔢 Origin Evidence</span>
+          <span class="cross-link-pill" onclick="openModal('importance')">🌟 IKS as Knowledge Power</span>
+        </div>
+      </div>`,
+  },
+};
+
+// ── MODAL FUNCTIONS ──
+function openModal(id) {
+  const m = modals[id];
+  if (!m) return;
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-icon">${m.icon}</div>
+    <span class="modal-chapter-tag">${m.chapter}</span>
+    <h2>${m.title}</h2>
+    <div class="modal-content">${m.content}</div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── QUIZ ──
+function answer(btn, correct) {
+  const q = btn.closest('.quiz-q');
+  if (q.dataset.answered) return;
+  q.dataset.answered = true;
+  const opts = q.querySelectorAll('.quiz-opt');
+  opts.forEach(o => { o.disabled = true; });
+  if (correct) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    opts.forEach(o => { if (o !== btn) o.classList.add('correct'); });
+  }
+}
+
+// ── SEARCH ──
+function filterTopics(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.topic-card').forEach(card => {
+    const text = (card.textContent + (card.dataset.keywords||'')).toLowerCase();
+    card.style.display = text.includes(q) || !q ? '' : 'none';
+  });
+}
+
+// ── ROUTING LOGIC ──
+function showPage(pageId) {
+  // Hide everything
+  const pages = document.querySelectorAll('.chapter-section, #quiz, #connections, #home');
+  pages.forEach(p => p.classList.remove('active'));
+  
+  // Show target
+  const target = document.getElementById(pageId);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
     
-    // Show target page
-    const target = document.getElementById(pageId);
-    if (target) {
-      target.classList.add('active');
-      window.scrollTo({top: 0, behavior: 'smooth'});
-      
-      // Update nav active state
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.toggle('active', item.getAttribute('href') === '#' + pageId);
-      });
-      
-      // Update hash without triggering onhashchange
+    // Toggle search bar visibility (only on chapters/home?)
+    document.getElementById('searchBar').style.display = (pageId === 'home') ? 'none' : 'flex';
+    
+    // Update Nav
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.toggle('active', item.getAttribute('href') === '#' + pageId);
+    });
+
+    // Update URL
+    if (window.location.hash !== '#' + pageId) {
       history.pushState(null, null, '#' + pageId);
     }
   }
+}
 
-  // Handle browser back/forward
-  window.onhashchange = function() {
-    const hash = window.location.hash.substring(1) || 'home';
-    showPage(hash);
-  };
+// Handle Back/Forward
+window.onhashchange = function() {
+  const hash = window.location.hash.substring(1) || 'home';
+  showPage(hash);
+};
 
-  // Initialize from URL hash
-  window.onload = function() {
-    const hash = window.location.hash.substring(1) || 'home';
-    showPage(hash);
-  };
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash.substring(1) || 'home';
+  showPage(hash);
+});
 
-  // ── ORIGINAL MODAL LOGIC ──
-  const modals = {
-    'importance': { title: 'Why Study IKS?', content: '<p>Identity, Culture, Received Wisdom, and Economic Value.</p>' },
-    'define': { title: 'Defining IKS', content: '<p>IKS is knowledge validated through experience.</p>' },
-    'classification': { title: 'Classification', content: '<p>14 branches of knowledge.</p>' },
-    'vedas-intro': { title: 'Vedas', content: '<p>Apauruseya origin.</p>' },
-    'rigveda': { title: 'Rigveda', content: '<p>Oldest religious text.</p>' },
-    'yajurveda': { title: 'Yajurveda', content: '<p>Manual for rituals.</p>' },
-    'samkhya': { title: 'Samkhya', content: '<p>Dualism of Purusa and Prakriti.</p>' },
-    'yoga-darshana': { title: 'Yoga', content: '<p>Ashtanga Yoga steps.</p>' },
-    'vedanta': { title: 'Vedanta', content: '<p>End of Vedas philosophy.</p>' }
-  };
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
 
-  function openModal(id) {
-    const data = modals[id];
-    if (data) {
-      document.getElementById('modalContent').innerHTML = `<h2>${data.title}</h2><div style="margin-top:20px">${data.content}</div>`;
-      document.getElementById('modalOverlay').classList.add('open');
-    }
-  }
-
-  function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
-  }
-
-  function answer(btn, correct) {
-    btn.style.background = correct ? 'rgba(76, 175, 80, 0.3)' : 'rgba(229, 57, 53, 0.3)';
-    btn.style.borderColor = correct ? '#4CAF50' : '#E53935';
-  }
-
-  // Scroll Progress
-  window.onscroll = function() {
-    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    let scrolled = (winScroll / height) * 100;
-    document.getElementById("progressBar").style.width = scrolled + "%";
-  };
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
 </script>
-
-<footer style="text-align: center; padding: 40px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); background: white;">
-  <p>Made by Ritesh Kumar Mahato | Instagram: @riteshoon</p>
-  <p>© 2026 IKS Interactive Study Guide</p>
-</footer>
-
 </body>
 </html>
